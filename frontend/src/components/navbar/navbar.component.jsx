@@ -11,7 +11,6 @@ import NavbarList from './navbar.list';
  const Navbar = () => {
     const [active, setActive] = useState(false);
     const menuState = () => {
-        console.log(active);
         setActive(!active)
     }
     

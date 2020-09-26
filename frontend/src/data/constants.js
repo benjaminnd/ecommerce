@@ -1,0 +1,13 @@
+const constants = {
+    REGISTER_FAIL : 'REGISTER_FAIL',
+    USER_LOADED : 'USER_LOADED',
+    AUTH_ERROR : 'AUTH_ERROR',
+    LOG_OUT : 'USER_LOGOUT',
+    LOADING : 'LOADING',
+    REGISTER_SUCCESS : 'REGISTER_SUCCESS',
+    LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+    LOGIN_FAIL: 'LOGIN_FAIL',
+    LOGOUT: 'LOGOUT'
+}
+
+export default constants;
