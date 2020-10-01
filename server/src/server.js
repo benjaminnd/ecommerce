@@ -4,7 +4,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser'
 import UserRouter from '../routes/auth.route.js';
+import CategoryRouter from '../routes/category.route.js';
 import WithDb from '../db.js'
+import ProductRouter from '../routes/product.route.js';
 
 
 
@@ -25,6 +27,8 @@ app.use(cors())
 app.use(bodyParser.json());
 
 app.use('/api/user/', UserRouter)
+app.use('/api/category/', CategoryRouter)
+app.use('/api/product/', ProductRouter)
 //testing routes
 app.get('/', (req,res) => {
     res.send('test route => home page');

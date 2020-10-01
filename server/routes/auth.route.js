@@ -17,7 +17,7 @@ const{check, validationResult} = expressValidator;
 
 UserRouter.get('/', UserAuth, async(req, res) => {
     try {
-        console.log('get default user')
+        console.log('get user')
         const user = await User.findById(req.user.id).select('-password')
         res.json(user)
         console.log(user);
