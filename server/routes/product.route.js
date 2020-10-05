@@ -69,6 +69,56 @@ ProductRouter.post('/', UserAuth, AdminAuth, (req,res)=>{
     })
 })
 
+//@route GET api/product/categories
+//@desc Get all categories that have products
+//@access Public
+
+ProductRouter.get("/categories", async (req,res) => {
+  
+    try {
+        let categories = await Product.distinct('category')
+        if(!categories) {
+            return res.status(400).json({
+                error: 'Categories not found'
+            })
+        }
+        res.json(categories)
+
+    } catch(error) {
+        console.log(error)
+        res.status(500).send('Server error')
+    }
+
+})
+
+//@route GET api/product/categories
+//@desc Get all categories that have products
+//@access Public
+
+ProductRouter.get("/search", async (req,res) => {
+    const query = {};
+    if(req.query.search) {
+        query.name = {
+            $regex: req.query.search,
+            $options: 'i'
+        }
+
+        if(req.query.category && req.query.category != 'All'){
+            query.category = req.query.category;
+        }
+    }
+  
+    try {
+        let products = await Product.find(query).select('-image');
+        res.json(products)
+
+    } catch(error) {
+        console.log(error)
+        res.status(500).send('Error getting products')
+    }
+
+})
+
 //@route GET api/product/list
 //@desc Get Product List
 //options (order asc or desc, sort by product properties)
