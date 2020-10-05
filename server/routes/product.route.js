@@ -5,11 +5,14 @@ import UserAuth from '../middleware/auth.js';
 import AdminAuth from '../middleware/admin.auth.js';
 import formidable from 'formidable';
 import fs from 'fs';
+import productById from '../middleware/productById.js';
 
 //@route POST api/product
 //@desc Create Product
 //@access Private Admin
 ProductRouter.post('/', UserAuth, AdminAuth, (req,res)=>{
+
+    
     let form = new formidable.IncomingForm()
     form.keepExtensions = true;
 
@@ -57,13 +60,63 @@ ProductRouter.post('/', UserAuth, AdminAuth, (req,res)=>{
         try{
             await product.save();
             res.json(`New product "${product.name}" successfully saved`);
-
+            
         }catch(error){
             console.log(error)
             res.status(500).send('Server error')
         }
-
+        
     })
 })
+
+//@route GET api/product/list
+//@desc Get Product List
+//options (order asc or desc, sort by product properties)
+//@access Public
+
+ProductRouter.get("/list", async (req,res) => {
+    let listOrder = req.query.order ? req.query.order : 'asc' //get list order from query or set asc as default
+    let sortBy = req.query.sortBy ? req.query.sortBy : '_id' //set sortBy
+    let limit = req.query.limit ? parseInt(req.query.limit) : 6; //limiting number of products return
+    
+    try {
+        console.log('Getiing list')
+        let list = await Product.find({}).select('-image').populate('category').sort([
+                [sortBy, listOrder]
+             ]).limit(limit).exec();
+        res.json(list);
+
+    } catch(error) {
+        console.log(error)
+        res.status(500).send('Invalid queries')
+    }
+
+})
+
+//@route GET api/product/:productId
+//@desc Get Product information
+//@access Public
+
+ProductRouter.get("/:productId", productById, (req,res) => {
+    req.product.image = undefined;
+    return res.json(req.product);
+})
+
+//@route GET api/product/image/:productId
+//@desc Get Product image
+//@access Public
+
+ProductRouter.get("/image/:productId", productById, (req,res) => {
+    if(req.product.image.data) {
+        res.set('Content-Type', req.product.image.contentType)
+        return res.send(req.product.image.data);
+    }
+
+    res.status(400).json({
+        error: "Loading image failed"
+    })
+})
+
+
 
 export default ProductRouter;
