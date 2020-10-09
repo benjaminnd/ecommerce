@@ -11,6 +11,23 @@ const UserRouter = express.Router();
 const{check, validationResult} = expressValidator;
 
 
+//@route GET api/users
+//@desc Get all users
+//@access Private    
+
+UserRouter.get('/users', async(req, res) => {
+    try {
+        console.log('get users')
+        const users = await User.find();
+        res.json(users)
+        console.log(users);
+    }catch(error) {
+        console.log(error.message);
+        res.status(500).send("Server error");
+    }
+})
+
+
 //@route GET api/user
 //@desc User Info
 //@access Private

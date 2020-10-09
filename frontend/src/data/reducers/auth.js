@@ -2,7 +2,7 @@ import axios from 'axios'
 import {toast} from 'react-toastify'
 import setAuthToken from '../../helpers/setAuthToken'
 import URLDevelopment from '../../helpers/URL'
-import C from '../constants';
+import C from '../authConstants';
 
 
 
@@ -21,6 +21,7 @@ export default function(state = initialState, action) {
     const {type, payload} = action
     switch (type) {
         case C.USER_LOADED:
+            console.log('user loaded');
             return {
                 ...state,
                 user: payload,
@@ -30,7 +31,6 @@ export default function(state = initialState, action) {
         case C.REGISTER_SUCCESS:
         case C.LOGIN_SUCCESS:
             //set token in localstorage
-            console.log('register succeed')
             localStorage.setItem('token', payload.token);
             return {
                 ...state,
@@ -149,6 +149,7 @@ export const login = ({email, password}) => async(dispatch) => {
 
     }catch(error){
         console.log(body,error.response);
+        //get error from server and display in toast container
         const errs = error.response.data.errors;
         if(errs) {
             errs.map(er => {

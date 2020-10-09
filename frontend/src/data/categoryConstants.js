@@ -1,0 +1,7 @@
+const actionTypes = {
+    ADD_CATEGORY_SUCCESS: 'ADD_PRODUCT_SUCCESS',
+    ADD_CATEGORY_FAIL: 'ADD_PRODUCT_FAIL',
+    CATEGORY_LOADED: 'CATEGORY_LOADED',
+}
+
+export default actionTypes;

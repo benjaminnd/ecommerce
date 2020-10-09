@@ -1,4 +1,4 @@
-const constants = {
+const actionTypes = {
     REGISTER_FAIL : 'REGISTER_FAIL',
     USER_LOADED : 'USER_LOADED',
     AUTH_ERROR : 'AUTH_ERROR',
@@ -7,7 +7,8 @@ const constants = {
     REGISTER_SUCCESS : 'REGISTER_SUCCESS',
     LOGIN_SUCCESS: 'LOGIN_SUCCESS',
     LOGIN_FAIL: 'LOGIN_FAIL',
-    LOGOUT: 'LOGOUT'
+    LOGOUT: 'LOGOUT',
+    
 }
 
-export default constants;
+export default actionTypes;

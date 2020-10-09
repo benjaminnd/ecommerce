@@ -72,10 +72,10 @@ const Login = ({login, isAuth, isLoading, user}) => {
     )
 }
 
-const mapToStateProps = state => ({
+const mapStateToProps = state => ({
     isAuth: state.auth.isAuthenticated,
     isLoading: state.auth.loading,
     user: state.auth.user
 })
 
-export default connect(mapToStateProps, {login})(Login);
+export default connect(mapStateToProps, {login})(Login);

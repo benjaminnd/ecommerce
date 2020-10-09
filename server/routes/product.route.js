@@ -91,8 +91,8 @@ ProductRouter.get("/categories", async (req,res) => {
 
 })
 
-//@route GET api/product/categories
-//@desc Get all categories that have products
+//@route GET api/product/search
+//@desc Search product using parameters
 //@access Public
 
 ProductRouter.get("/search", async (req,res) => {
@@ -130,7 +130,7 @@ ProductRouter.get("/list", async (req,res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6; //limiting number of products return
     
     try {
-        console.log('Getiing list')
+        console.log('Getting list')
         let list = await Product.find({}).select('-image').populate('category').sort([
                 [sortBy, listOrder]
              ]).limit(limit).exec();
