@@ -38,13 +38,19 @@ const ProductSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
+    images: {
+        type: Array,
+        default: []
+    },
     shipping: {
         required: false,
-        type: Boolean
+        type: Boolean,
+        default: true
+    },
+    views: {
+        type: Number,
+        default: 0
     }
-
-
-
 
 }, {timestamps: true});
 

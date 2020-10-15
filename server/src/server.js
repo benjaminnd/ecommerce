@@ -29,6 +29,7 @@ app.use(bodyParser.json());
 app.use('/api/user/', UserRouter)
 app.use('/api/category/', CategoryRouter)
 app.use('/api/product/', ProductRouter)
+app.use("/uploads", express.static("uploads"))
 //testing routes
 app.get('/', (req,res) => {
     res.send('test route => home page');

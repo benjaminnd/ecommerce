@@ -6,13 +6,49 @@ import AdminAuth from '../middleware/admin.auth.js';
 import formidable from 'formidable';
 import fs from 'fs';
 import productById from '../middleware/productById.js';
+import multer from 'multer';
 
+
+//multer storage
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/')
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}_${file.originalname}`)
+    },
+    // fileFilter: (req, file, cb) => {
+    //     const ext = path.extname(file.originalname)
+    //     if (ext !== '.jpg' || ext !== '.png') {
+    //         return cb(res.status(400).end('only jpg, png are allowed'), false);
+    //     }
+    //     cb(null, true)
+    // }
+})
+
+const upload = multer({ storage: storage }).single("file")
+
+
+//=================================
+//             Product
+//=================================
+
+ProductRouter.post('/uploadImage', UserAuth, AdminAuth, (req, res) => {
+    upload(req, res, err => {
+        console.log(req)
+        if (err) {
+            console.log(err)
+            return res.status(400).json({ success: false, err })
+        }
+        return res.json({ success: true, image: res.req.file.path, fileName: res.req.file.filename })
+    })
+
+});
 //@route POST api/product
 //@desc Create Product
 //@access Private Admin
 ProductRouter.post('/', UserAuth, AdminAuth, (req,res)=>{
-
-    
+    console.log(req.files)
     let form = new formidable.IncomingForm()
     form.keepExtensions = true;
 
@@ -22,6 +58,9 @@ ProductRouter.post('/', UserAuth, AdminAuth, (req,res)=>{
                 error: "Cannot upload image"
             })
         }
+
+        console.log('Fields', fields)
+        console.log('Files', files)
 
         if(!files.image) {
             return res.status(400).json({
@@ -39,6 +78,7 @@ ProductRouter.post('/', UserAuth, AdminAuth, (req,res)=>{
         //check the other fields of the form
 
         const {name, description, price, category, quantity, shipping} = fields;
+        console.log(fields)
         if(!name || !description || !price || !category || !quantity || !shipping) {
             return res.status(400).json({
                 error: "All fields are required"
@@ -127,7 +167,7 @@ ProductRouter.get("/search", async (req,res) => {
 ProductRouter.get("/list", async (req,res) => {
     let listOrder = req.query.order ? req.query.order : 'asc' //get list order from query or set asc as default
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id' //set sortBy
-    let limit = req.query.limit ? parseInt(req.query.limit) : 6; //limiting number of products return
+    let limit = req.query.limit ? parseInt(req.query.limit) : null; //limiting number of products return
     
     try {
         console.log('Getting list')

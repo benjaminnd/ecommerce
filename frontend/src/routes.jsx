@@ -5,6 +5,7 @@ import Navbar from './components/navbar/navbar.component';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import UploadProduct from './pages/UploadProduct';
 
 const Routes = () => {
     return (
@@ -15,7 +16,7 @@ const Routes = () => {
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/register" component={Register}></Route>
             <Route exact path="/login" component={Login}></Route>
-            {/* <Route exact path="/dashboard/admin" component={AdminDashboard}></Route> */}
+            <Route exact path="/upload" component={UploadProduct}></Route>
         </Switch>
     </BrowserRouter>
     );

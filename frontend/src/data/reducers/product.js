@@ -4,7 +4,6 @@ import URLDevelopment from '../../helpers/URL'
 import C from '../productConstants';
 
 //Initial State
-
 const initialState = {
     products: []
 }
@@ -12,10 +11,10 @@ const initialState = {
 export default function(state = initialState, action) {
     const {type, payload} = action
     switch(type) {
-        case C.ADD_PRODUCTS_SUCCESS:
-            return {
-                products: [...state.products, ...payload]
-            }
+        // case C.ADD_PRODUCTS_SUCCESS:
+        //     return {
+        //         products: [...state.products, ...payload]
+        //     }
         case C.PRODUCTS_LOADED:
             return {
                 products: [...payload]
@@ -23,6 +22,7 @@ export default function(state = initialState, action) {
         default: return state
     }
 }
+
 //load all products from form
 export const loadProducts = async(dispatch) => {
     try {
@@ -33,6 +33,29 @@ export const loadProducts = async(dispatch) => {
             payload: res.data
         })
     }catch(error){
+        console.log(error.response)
+    }
+}
+
+export const addProduct = (product) => async(dispatch) => {
+    //header for axios
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    };
+    const bodyFormData = new FormData()
+    Object.keys(product).forEach((key) => {
+        bodyFormData.append(key, product[key] )
+    })
+    console.log(FormData);
+    try {
+        const res = await axios.post(`${URLDevelopment}/api/product/`, bodyFormData, config)
+        toast.success(res.data);
+        console.log('adding product...', res.data)
+        dispatch(loadProducts())
+    }catch(error){
+        // toast.error(error.response.data)
         console.log(error.response)
     }
 }
