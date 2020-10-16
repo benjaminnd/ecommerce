@@ -9,6 +9,7 @@ import productById from '../middleware/productById.js';
 import multer from 'multer';
 
 
+
 //multer storage
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -55,24 +56,22 @@ ProductRouter.post('/', UserAuth, AdminAuth, (req,res)=>{
     form.parse(req, async (err, fields, files)=> {
         if(err) {
             return res.status(400).json({
-                error: "Cannot upload image"
+                error: "Cannot upload product"
             })
         }
-
         console.log('Fields', fields)
-        console.log('Files', files)
 
-        if(!files.image) {
+        if(!fields.images) {
             return res.status(400).json({
                 error: "Product Image is required"
             })
         }
 
-        if(files.image.type !=='image/jpeg' && files.image.type !=='image/jpg' && files.image.type !=='image/png'){
-            return res.status(400).json({
-                error: "Image type invalid"
-            })
-        }
+        // if(files.image.type !=='image/jpeg' && files.image.type !=='image/jpg' && files.image.type !=='image/png'){
+        //     return res.status(400).json({
+        //         error: "Image type invalid"
+        //     })
+        // }
 
 
         //check the other fields of the form
@@ -88,18 +87,21 @@ ProductRouter.post('/', UserAuth, AdminAuth, (req,res)=>{
         let product = new Product(fields)
 
         //check image size 1MB = 1000000
-        if(files.image.size > 1000000){
-            return res.status(400).json({
-                error: 'Image should be less than 1MB '
-            })
-        }
+        // if(files.image.size > 1000000){
+        //     return res.status(400).json({
+        //         error: 'Image should be less than 1MB '
+        //     })
+        // }
 
-        product.image.data = fs.readFileSync(files.image.path);
-        product.image.contentType = files.image.type;
+        // product.image.data = fs.readFileSync(files.image.path);
+        // product.image.contentType = files.image.type;
 
         try{
             await product.save();
-            res.json(`New product "${product.name}" successfully saved`);
+            res.status(200).json({
+                success: true,
+                msg: `New product "${product.name}" successfully saved`
+            });
             
         }catch(error){
             console.log(error)
@@ -128,6 +130,23 @@ ProductRouter.get("/categories", async (req,res) => {
         console.log(error)
         res.status(500).send('Server error')
     }
+
+})
+
+//@route DELETE api/product/categories
+//@desc Delete all products
+//@access Public
+
+ProductRouter.delete("/", async (req,res) => {
+  
+    Product.deleteMany({}, (err)=>{
+        if(err){
+            return res.status(500).json({
+                error:'Cannot delete products'
+            })
+        } 
+        res.json({success: 'Successfully deleted'})
+    })
 
 })
 

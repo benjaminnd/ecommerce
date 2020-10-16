@@ -6,25 +6,33 @@ import DropdownMenu from '../components/dropdown/dropdown.component'
 import FormInput from '../components/inputs/input.component'
 import FileUpload from'../components/fileupload/fileupload.component'
 import {addProduct} from '../data/reducers/product'
+import {useHistory} from 'react-router-dom'
 
-const UploadProduct = ({addProduct, stateCategories}) => {
+
+const UploadProduct = ({addProduct, stateCategories, uploadSuccessful}) => {
+    let history = useHistory();
     const [product, setProduct] = useState({
         name: '',
         description: '',
         price: 0,
         category: null,
-        image: ''
+        images: []
     })
 
-
+    const [images, setImages] = useState([])
 
     useEffect(() => {
-        console.log('Current products', stateCategories)
+        console.log('Current categories', stateCategories)
+        console.log('Current images', product)
     })
 
     useEffect(() => {
-        console.log(product)
-    })
+        setProduct({...product, images: images})
+    }, [images])
+
+    useEffect(()=>{
+        if(uploadSuccessful) history.push('/')
+    }, [uploadSuccessful])
 
     const handleChange = name => e => {
         setProduct({...product, [name] : (name =='shipping' ? e.target.checked : e.target.value)})
@@ -46,16 +54,21 @@ const UploadProduct = ({addProduct, stateCategories}) => {
         setProduct({...product, image: file})
     }
 
+    const onAddImage = uploadImages => {
+        setImages(uploadImages)
+    }
+
     const onSubmit = async (e) => {
         e.preventDefault();
         console.log('adding product', product);
         addProduct(product);
+        
     }
     return (
         <Container>
             <form className="bg-white rounded-lg overflow-hidden shadow-2xl p-5 my-16"  onSubmit={onSubmit}>
             <h2 className="font-bold text-3xl text-center mb-5">Add Product</h2>
-            <FileUpload />
+            <FileUpload imagesRefresh={onAddImage} />
             <FormInput
                 title='Product Name' 
                 placeholder='Product name'
@@ -82,13 +95,13 @@ const UploadProduct = ({addProduct, stateCategories}) => {
                 handleChange={handleChange('price')}
                 type='number'
             />
-            <FormInput
+            {/* <FormInput
                 title='Image' 
                 placeholder='Add product image'
                 handleChange={handleFileChange}
                 type='file'
                 acceptValue='image/png, image/jpeg'
-            />
+            /> */}
             <FormInput
                 title='Quantity' 
                 placeholder='Quantity'
@@ -112,6 +125,7 @@ const UploadProduct = ({addProduct, stateCategories}) => {
 }
 
 const mapToStateProps = state => ({
-    stateCategories: state.category.categories
+    stateCategories: state.category.categories,
+    uploadSuccessful: state.product.productUploaded
 })
 export default connect(mapToStateProps, {addProduct})(UploadProduct)

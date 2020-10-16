@@ -4,7 +4,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import URLDevelopment from '../../helpers/URL'
-const FileUpload = ()=>{
+const FileUpload = ({imagesRefresh})=>{
 
     const [Images, setImages] = useState([])
 
@@ -25,12 +25,11 @@ const FileUpload = ()=>{
             if(res.data.success) {
                 toast.success(`successfully added ${res.data.image}`)
                 setImages([...Images, res.data.image])
-            } else {
-                toast.error('Failed to save the Image in server')
+                imagesRefresh([...Images, res.data.image])
             }
         }catch(error){
-                console.log(error.response)
-            
+            toast.error(error.response.data.msg)
+            console.log(error.response) 
         }
      }
 
@@ -42,21 +41,20 @@ const FileUpload = ()=>{
         newImages.splice(currentIndex, 1)
 
         setImages(newImages)
-        //props.refreshFunction(newImages)
+        imagesRefresh(newImages)
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <>
+        <label htmlFor="fileupload" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Add Images</label>
+        <div id="fileupload" className="flex justify-between">
             <Dropzone
                 onDrop={onDrop}
                 multiple={false}
                 maxSize={1000000}
             >
                 {({ getRootProps, getInputProps }) => (
-                    <div style={{
-                        width: '300px', height: '240px', border: '1px solid lightgray',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center'
-                    }}
+                    <div className="flex items-center justify-center w-1/3 border-solid border-gray-400 border-2 h-64"
                         {...getRootProps()}
                     >
                         {console.log('getRootProps', { ...getRootProps() })}
@@ -68,7 +66,7 @@ const FileUpload = ()=>{
                 )}
             </Dropzone>
 
-            <div style={{ display: 'flex', width: '350px', height: '240px', overflowX: 'scroll' }}>
+            <div className="flex w-1/2 overflow-x-scroll scrolling-touch">
 
                 {Images.map((image, index) => 
                 (
@@ -81,6 +79,7 @@ const FileUpload = ()=>{
             </div>
 
         </div>
+        </>
     )
 }
 
