@@ -193,7 +193,7 @@ ProductRouter.get("/list", async (req,res) => {
         let list = await Product.find({}).select('-image').populate('category').sort([
                 [sortBy, listOrder]
              ]).limit(limit).exec();
-        res.json(list);
+        res.json({list: list});
 
     } catch(error) {
         console.log(error)

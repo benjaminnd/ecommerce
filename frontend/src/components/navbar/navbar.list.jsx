@@ -17,6 +17,7 @@ const NavbarList = ({history, logout, isAuth}) => {
                 <NavItem link='/' name="Home" listStyle={isActive(history, '/')} />
                 <NavItem link='/shop' name="Shop" listStyle={isActive(history, '/shop')} />
                 <NavItem link='/dashboard' name="Dashboard" listStyle={isActive(history, '/dashboard')} />
+                {isAuth? (<NavItem link='/upload' name='Upload' listStyle={isActive(history, '/upload')}/>) : ''}
                 {isAuth? (<Button title='Sign out' addStyle='hover:text-primary' action ={()=>{logout()}} />) : 
                 (   <>
                     <Button title='Login' addStyle='hover:text-primary' isButton={false} href='/login'></Button>
@@ -24,7 +25,7 @@ const NavbarList = ({history, logout, isAuth}) => {
                     </>
                 )}
                 
-                <Button isButton={false} title='Cart' href='/cart' addStyle='bg-primary text-white uppercase w-24 md:ml-6'></Button>
+                <Button isButton={false} title='Cart' href='/cart' addStyle='bg-primary text-white uppercase w-24 md:ml-6 bg-shop-logo'></Button>
                 
             </ul>
         

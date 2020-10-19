@@ -65,7 +65,7 @@ export const addProduct = (product) => async(dispatch) => {
             dispatch(loadProducts())
         }
     }catch(error){
-        // toast.error(error.response.data)
+        toast.error(error.response.data.error)
         console.log(error.response)
     }
 }
