@@ -83,7 +83,7 @@ ProductRouter.post('/', UserAuth, AdminAuth, (req,res)=>{
                 error: "All fields are required"
             })
         }
-
+        fields.images = fields.images.split(',')
         let product = new Product(fields)
 
         //check image size 1MB = 1000000
@@ -186,14 +186,15 @@ ProductRouter.get("/search", async (req,res) => {
 ProductRouter.get("/list", async (req,res) => {
     let listOrder = req.query.order ? req.query.order : 'asc' //get list order from query or set asc as default
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id' //set sortBy
-    let limit = req.query.limit ? parseInt(req.query.limit) : null; //limiting number of products return
+    let limit = req.query.limit ? parseInt(req.query.limit) : 100; //limiting number of products return
+    let skip = parseInt(req.query.skip) //skipping certain number of products
     
     try {
         console.log('Getting list')
         let list = await Product.find({}).select('-image').populate('category').sort([
                 [sortBy, listOrder]
-             ]).limit(limit).exec();
-        res.json({list: list});
+             ]).skip(skip).limit(limit).exec();
+        res.json({list: list, size: list.length});
 
     } catch(error) {
         console.log(error)

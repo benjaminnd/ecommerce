@@ -5,18 +5,18 @@ import Container from '../components/containers/container.component'
 import DropdownMenu from '../components/dropdown/dropdown.component'
 import FormInput from '../components/inputs/input.component'
 import FileUpload from'../components/fileupload/fileupload.component'
-import {addProduct} from '../data/reducers/product'
+import {addProduct, finishUpload, loadProducts} from '../data/reducers/product'
 import {useHistory} from 'react-router-dom'
 
 
-const UploadProduct = ({addProduct, stateCategories, uploadSuccessful}) => {
+const UploadProduct = ({addProduct, finishUpload, stateCategories, uploadSuccessful}) => {
     let history = useHistory();
     const [product, setProduct] = useState({
         name: '',
         description: '',
         price: 0,
         category: null,
-        images: []
+        images: null
     })
 
     const [images, setImages] = useState([])
@@ -31,7 +31,10 @@ const UploadProduct = ({addProduct, stateCategories, uploadSuccessful}) => {
     }, [images])
 
     useEffect(()=>{
-        if(uploadSuccessful) history.push('/')
+        if(uploadSuccessful){
+            finishUpload();
+            history.push('/')
+        }
     }, [uploadSuccessful])
 
     const handleChange = name => e => {
@@ -55,6 +58,7 @@ const UploadProduct = ({addProduct, stateCategories, uploadSuccessful}) => {
     }
 
     const onAddImage = uploadImages => {
+        console.log('images', uploadImages)
         setImages(uploadImages)
     }
 
@@ -128,4 +132,4 @@ const mapToStateProps = state => ({
     stateCategories: state.category.categories,
     uploadSuccessful: state.product.productUploaded
 })
-export default connect(mapToStateProps, {addProduct})(UploadProduct)
+export default connect(mapToStateProps, {addProduct, finishUpload})(UploadProduct)

@@ -4,23 +4,49 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import Card from '../components/products/productCard';
 
 function Landing() {
-    const [products, setProducts] = useState([])
+    const [Products, setProducts] = useState([])
+    const [Skip, setSkip] = useState(0)
+    const [Limit, setLimit] = useState(4)
+    const [Size, setSize] = useState(0)
     useEffect(()=>{
-        axios.get('http://localhost:5000/api/product/list').then(response => {
+        const filters = {
+            skip: Skip,
+            limit: Limit
+        }
+        getProducts(filters)
+    }, [])
+                      
+    useEffect(()=> {
+        console.log(Products)
+    }, [Products])
+
+    const getProducts = (filters) => {
+        const params = new URLSearchParams(filters)
+        const url = 'http://localhost:5000/api/product/list?' + params
+        console.log('url', url)
+        axios.get(url).then(response => {
             if(response.data){
-                setProducts(response.data.list)
+                setProducts(Products.concat(response.data.list ))
+                console.log(response.data.size)
+                setSize(response.data.size)
             }
         }).catch(error => {
             console.log(error)
         })
-    }, [])
-                      
-    useEffect(()=> {
-        console.log(products)
-    }, [products])
-    const renderProducts =  products.map((product, index) => {
-        return <Card title={product.name} price={product.price} description={product.description}/>
+    }
+    const renderProducts =  Products.map((product, index) => {
+        return <Card key={index} title={product.name} price={product.price} description={product.description} images={product.images}/>
     })
+
+    const onLoadMore = ()=> {
+        let skip = Skip + Limit
+        const filters = {
+            skip: skip,
+            limit: Limit,
+        }
+        getProducts(filters)
+        setSkip(skip)
+    }
 
     return (
         <div className="w-2/3 mx-auto my-12">
@@ -34,6 +60,11 @@ function Landing() {
                     }
                 </div>
             </div>
+            {Size >= Limit && 
+            <div className="btn flex justify-center">
+                <button className="bg-transparent hover:bg-green-300 text-green-600 font-semibold hover:text-white py-2 px-4 border border-green-900 hover:border-transparent rounded focus:outline-none" onClick={onLoadMore}>Load More</button>
+            </div>
+            }
         </div>
     )
 }

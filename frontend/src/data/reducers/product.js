@@ -23,13 +23,19 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 products: [...payload],
+                productUploaded: false
+            }
+        case C.FINISH_UPLOAD:
+            return {
+                ...state,
+                productUploaded: false
             }
         default: return state
     }
 }
 
 //load all products from form
-export const loadProducts = async(dispatch) => {
+export const loadProducts = () => async(dispatch) => {
     try {
         const res = await axios.get(`${URLDevelopment}/api/product/list`)
         console.log('loading products from the store')
@@ -40,6 +46,14 @@ export const loadProducts = async(dispatch) => {
     }catch(error){
         console.log(error.response)
     }
+}
+
+export const finishUpload = ()=> async(dispatch) => {
+    console.log('Finishing uploading ....')
+    dispatch({
+        type: C.FINISH_UPLOAD
+    })
+
 }
 
 export const addProduct = (product) => async(dispatch) => {
@@ -53,7 +67,7 @@ export const addProduct = (product) => async(dispatch) => {
     Object.keys(product).forEach((key) => {
         bodyFormData.append(key, product[key] )
     })
-    console.log(FormData);
+    console.log('product upload data', product.images);
     try {
         const res = await axios.post(`${URLDevelopment}/api/product/`, bodyFormData, config)
         if(res.data.success){
@@ -62,10 +76,9 @@ export const addProduct = (product) => async(dispatch) => {
             dispatch({
                 type: C.ADD_PRODUCTS_SUCCESS
             })
-            dispatch(loadProducts())
         }
     }catch(error){
-        toast.error(error.response.data.error)
+        // toast.error(error.response.data.error)
         console.log(error.response)
     }
 }

@@ -6,6 +6,7 @@ import { loadProducts } from './data/reducers/product';
 import store from './data/store';
 import setAuthToken from './helpers/setAuthToken';
 import Routes from './routes';
+import 'antd/dist/antd.css'
 
 if(localStorage.token) {
     setAuthToken(localStorage.token)
@@ -23,7 +24,7 @@ function App() {
     return (
     <Provider store={store}>
         <Routes/>
-    </Provider>    
+    </Provider>   
     )
 }
 
