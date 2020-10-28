@@ -32,7 +32,7 @@ const UploadProduct = ({addProduct, finishUpload, stateCategories, uploadSuccess
 
     useEffect(()=>{
         if(uploadSuccessful){
-            finishUpload();
+            finishUpload();  
             history.push('/')
         }
     }, [uploadSuccessful])

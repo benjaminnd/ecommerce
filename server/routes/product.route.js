@@ -7,6 +7,8 @@ import formidable from 'formidable';
 import fs from 'fs';
 import productById from '../middleware/productById.js';
 import multer from 'multer';
+import mongoose from 'mongoose';
+const {ObjectId} = mongoose.Types.ObjectId;
 
 
 
@@ -178,22 +180,38 @@ ProductRouter.get("/search", async (req,res) => {
 
 })
 
-//@route GET api/product/list
+//@route POST api/product/list
 //@desc Get Product List
 //options (order asc or desc, sort by product properties)
 //@access Public
 
-ProductRouter.get("/list", async (req,res) => {
-    let listOrder = req.query.order ? req.query.order : 'asc' //get list order from query or set asc as default
-    let sortBy = req.query.sortBy ? req.query.sortBy : '_id' //set sortBy
-    let limit = req.query.limit ? parseInt(req.query.limit) : 100; //limiting number of products return
-    let skip = parseInt(req.query.skip) //skipping certain number of products
-    
+ProductRouter.post("/list", async (req,res) => {
+    console.log('Request body--------------', req.body)
+    let listOrder = req.body.order ? req.body.order : 'asc' //get list order from query or set asc as default
+    let sortBy = req.body.sortBy ? req.body.sortBy : '_id' //set sortBy
+    let limit = req.body.limit ? parseInt(req.body.limit) : 100; //limiting number of products return
+    let skip = parseInt(req.body.skip) //skipping certain number of products
+    let findArgs = {};
+    console.log('filters', req.body.filters)
+    for(let key in req.body.filters) {
+        if(req.body.filters[key].length > 0) {
+            if(key==="price"){
+                findArgs[key] = {
+                    $gte: req.body.filters[key][0],
+                    $lte: req.body.filters[key][1]
+                }
+            } else { 
+                findArgs[key] = req.body.filters[key]
+            }
+        }
+    }
+    console.log('findArgs', findArgs)
     try {
         console.log('Getting list')
-        let list = await Product.find({}).select('-image').populate('category').sort([
+        let list = await Product.find(findArgs).select('-image').populate('category').sort([
                 [sortBy, listOrder]
              ]).skip(skip).limit(limit).exec();
+        console.log(list.length)
         res.json({list: list, size: list.length});
 
     } catch(error) {
