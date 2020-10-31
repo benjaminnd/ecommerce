@@ -5,12 +5,14 @@ import Card from '../components/products/productCard';
 import CheckBox from '../components/filters/CheckBox';
 import RadioBox from '../components/filters/RadioBox';
 import price from '../assets/price';
+import SearchBar from '../components/filters/SearchBar';
 
 function Landing() {
     const [Products, setProducts] = useState([])
     const [Skip, setSkip] = useState(0)
     const [Limit, setLimit] = useState(8)
     const [Size, setSize] = useState(0)
+    const [SearchText, setSearchText] = useState('')
     const [Filters, setFilters] = useState({
         category: [],
         price: []
@@ -88,6 +90,19 @@ function Landing() {
         showFilteredProducts(newFilters)
     }
 
+    const handleSearch = (searchText) => {
+        setSearchText(searchText)
+        const params = {
+            skip: 0,
+            limit: Limit,
+            filters: Filters,
+            searchText: searchText 
+        }
+        setSkip(0)
+
+        getProducts(params)
+    }
+
     return (
         <div className="w-2/3 mx-auto my-12">
             <div className="text-center">
@@ -100,6 +115,9 @@ function Landing() {
                 <div className="w-1/2 px-2">
                     <RadioBox handleFilters={filters=>handleFilters(filters, "price")}/>
                 </div>
+            </div>
+            <div className="mb-4 flex -mx-2 justify-end">
+                    <SearchBar handleSearch={handleSearch}/>
             </div>
             <div className="container my-12 mx-auto px-4 md:px-12">
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">

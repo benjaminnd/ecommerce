@@ -192,6 +192,7 @@ ProductRouter.post("/list", async (req,res) => {
     let limit = req.body.limit ? parseInt(req.body.limit) : 100; //limiting number of products return
     let skip = parseInt(req.body.skip) //skipping certain number of products
     let findArgs = {};
+    let term = req.body.searchText
     console.log('filters', req.body.filters)
     for(let key in req.body.filters) {
         if(req.body.filters[key].length > 0) {
@@ -206,17 +207,34 @@ ProductRouter.post("/list", async (req,res) => {
         }
     }
     console.log('findArgs', findArgs)
-    try {
-        console.log('Getting list')
-        let list = await Product.find(findArgs).select('-image').populate('category').sort([
-                [sortBy, listOrder]
-             ]).skip(skip).limit(limit).exec();
-        console.log(list.length)
-        res.json({list: list, size: list.length});
 
-    } catch(error) {
-        console.log(error)
-        res.status(500).send('Invalid queries')
+    if(!term){
+        try {
+            console.log('Getting list')
+            let list = await Product.find(findArgs).select('-image').populate('category').sort([
+                    [sortBy, listOrder]
+                 ]).skip(skip).limit(limit).exec();
+            console.log(list.length)
+            res.json({list: list, size: list.length});
+    
+        } catch(error) {
+            console.log(error)
+            res.status(500).send('Invalid queries')
+        }
+    }else{
+        console.log('search bar activated')
+        try {
+            console.log('Getting list')
+            let list = await Product.find({$text: {$search: term}}).select('-image').populate('category').sort([
+                    [sortBy, listOrder]
+                 ]).skip(skip).limit(limit).exec();
+            console.log(list.length)
+            res.json({list: list, size: list.length});
+    
+        } catch(error) {
+            console.log(error)
+            res.status(500).send('Invalid queries')
+        }
     }
 
 })
