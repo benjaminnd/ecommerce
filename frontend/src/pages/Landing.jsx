@@ -49,7 +49,7 @@ function Landing() {
         })
     }
     const renderProducts =  Products.map((product, index) => {
-        return <Card key={index} title={product.name} price={product.price} description={product.description} images={product.images}/>
+        return <Card key={index} productId={product._id} title={product.name} price={product.price} description={product.description} images={product.images}/>
     })
 
     const onLoadMore = ()=> {

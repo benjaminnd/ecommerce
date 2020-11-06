@@ -1,12 +1,13 @@
 import React from 'react'
 import ImageCarousel from '../imageSlider/ImageCarousel'
 
-function Card({title, price, description, images}) {
+function Card({title, productId, price, description, images}) {
+    const printId  = () => console.log('product Id ', productId)
     return (
         <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
         <article className="overflow-hidden rounded-lg shadow-lg">
 
-            <a href="#">
+            <a href={`/product/${productId}`}>
                 <ImageCarousel images={images} />
             </a>
 

@@ -245,6 +245,7 @@ ProductRouter.post("/list", async (req,res) => {
 
 ProductRouter.get("/:productId", productById, (req,res) => {
     req.product.image = undefined;
+    console.log('Querying product')
     return res.json(req.product);
 })
 
