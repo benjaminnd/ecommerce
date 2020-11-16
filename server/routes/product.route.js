@@ -238,21 +238,22 @@ ProductRouter.post("/list", async (req,res) => {
     }
 
 })
-
+  
 //@route GET api/product/:productId
 //@desc Get Product information
 //@access Public
-
 ProductRouter.get("/:productId", productById, (req,res) => {
     req.product.image = undefined;
     console.log('Querying product')
     return res.json(req.product);
 })
 
+
+
+
 //@route GET api/product/image/:productId
 //@desc Get Product image
 //@access Public
-
 ProductRouter.get("/image/:productId", productById, (req,res) => {
     if(req.product.image.data) {
         res.set('Content-Type', req.product.image.contentType)
@@ -262,6 +263,20 @@ ProductRouter.get("/image/:productId", productById, (req,res) => {
     res.status(400).json({
         error: "Loading image failed"
     })
+})
+
+//@route GET api/product/getCartItems
+//@desc Get Product information
+//@access Public
+ProductRouter.post("/getCartItems", async (req,res) => {
+    const ids=  req.query.cartItems.split(',')
+    try{
+        let list = await Product.find({_id: {$in: ids}})
+        return res.json(list)
+    } catch(error){
+        console.log(error)
+        res.status(500).send('Invalid query')
+    }
 })
 
 

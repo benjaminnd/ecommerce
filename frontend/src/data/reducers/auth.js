@@ -13,7 +13,8 @@ const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
-    user: null
+    user: null,
+    cart: []
 }
 
 //Reducers
@@ -26,7 +27,8 @@ export default function(state = initialState, action) {
                 ...state,
                 user: payload,
                 isAuthenticated: true,
-                loading: false
+                loading: false,
+                cart: payload.cart
             }
         case C.REGISTER_SUCCESS:
         case C.LOGIN_SUCCESS:
@@ -57,15 +59,24 @@ export default function(state = initialState, action) {
                 token: null,
                 isAuthenticated: false,
                 loading: false,
+                user:null
             };
-        
-
+        case C.USER_ADD_TO_CART:
+            return {
+                ...state
+            }
+        case C.USER_RETRIEVE_CART:
+            return {
+                ...state,
+                userCart: payload
+            }
         default: 
             return state;
     }
 }
 
 //Actions
+//initially load user
 export const loadUser = () => async (dispatch) => {
     if(localStorage.token) {
         setAuthToken(localStorage.token)
@@ -168,3 +179,38 @@ export const logout = () => dispatch => {
         type: C.LOGOUT
     })
 }
+
+export const addToCartUser = (_id) => {
+    console.log('adding to cart.....')
+    const request = axios.post(`${URLDevelopment}/api/user/addToCart?productId=${_id}`)
+    .then(response=>response.data);
+    console.log(request)
+    return {
+        type: C.USER_ADD_TO_CART,
+        payload: request
+    }
+}   
+
+export const getCartItems = (cartItems, userCart) => dispatch => {
+    let ids = cartItems.map((item)=>item.productId)
+    console.log('cart items', cartItems)
+    console.log(ids)
+
+    const request = axios.post(`${URLDevelopment}/api/product/getCartItems?cartItems=${ids}`)
+    .then(response=>{
+        let cartToRender = response.data
+        cartToRender.forEach((item,index) => {
+            userCart.forEach(u => {
+                if(item._id === u.productId) {
+                    cartToRender[index].quantityCart = u.quantity;
+                }
+            });
+        });
+        console.log('cart to render ', cartToRender)
+        dispatch ({
+            type: C.USER_RETRIEVE_CART,
+            payload: cartToRender
+        })
+    });
+    
+}   

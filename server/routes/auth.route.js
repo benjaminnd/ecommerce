@@ -169,4 +169,51 @@ UserRouter.post('/login', [
         res.status(500).send("Server error");
     }
 });
+
+UserRouter.post('/addToCart', UserAuth, (req,res) =>{
+    console.log(req.user)
+    User.find({_id: req.user.id},
+        (err, userInfo)=>{
+            let duplicate = false //this flags whether the product id is already added to cart
+            console.log('User: ',  userInfo)
+            userInfo[0].cart.forEach((cartInfo)=>{
+                console.log(cartInfo)
+                if(cartInfo.productId===req.query.productId){
+                    duplicate= true;
+                }
+            })
+            //if the item is already in cart increment the quantity
+            if(duplicate) {
+                console.log('duplicate')
+                User.findOneAndUpdate(
+                    {_id: req.user.id, "cart.productId": req.query.productId},
+                    {$inc: {"cart.$.quantity": 1}},
+                    {new:true},
+                    ()=>{
+                        if(err) return res.json({success:false, err});
+                        res.status(200).json(userInfo[0].cart)
+                    }
+                )
+            } else { //if the product is added the first time push a whole new cart object to cart array
+                console.log('new cart')
+                User.findOneAndUpdate(
+                    {_id:req.user.id},
+                    {
+                        $push: {
+                            cart: {
+                                productId:req.query.productId,
+                                quantity: 1,
+                                date: Date.now()
+                            }
+                        }
+                    },
+                    {new:true},
+                    () => {
+                        if(err) return res.json({success:false, err});
+                        res.status(200).json(userInfo[0].cart)
+                    }
+                )
+            }
+        })
+})
 export default UserRouter;

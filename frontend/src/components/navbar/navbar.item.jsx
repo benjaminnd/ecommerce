@@ -4,7 +4,7 @@ const NavItem = ({link, listStyle, name}) => {
     return (
         <li className={`hover:text-primary animate px-3 py-2 rounded-md ${listStyle}`}>
             <Link to={link}>
-                <span>{name}</span>
+                <span className="hover:text-primary text-base">{name}</span>
             </Link>
         </li>
     )

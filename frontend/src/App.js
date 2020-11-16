@@ -7,6 +7,7 @@ import store from './data/store';
 import setAuthToken from './helpers/setAuthToken';
 import Routes from './routes';
 import 'antd/dist/antd.css'
+import { loadCart, emptyCart } from './data/reducers/cart';
 
 if(localStorage.token) {
     setAuthToken(localStorage.token)
@@ -16,6 +17,8 @@ function App() {
         console.log(store.getState());
     })
     useEffect(()=> {
+        //store.dispatch(emptyCart())
+        store.dispatch(loadCart())
         store.dispatch(loadUser())
         store.dispatch(loadProducts)
         store.dispatch(loadCategories)

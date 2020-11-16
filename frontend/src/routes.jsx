@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Navbar from './components/navbar/navbar.component';
+import CartPage from './pages/CartPage';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -12,17 +13,18 @@ import UploadProduct from './pages/UploadProduct';
 const Routes = () => {
     return (
         <BrowserRouter>
-        <Navbar></Navbar>
-        <ToastContainer />
-        <Switch>
-            <Route exact path="/" component={Home}></Route>
-            <Route exact path="/register" component={Register}></Route>
-            <Route exact path="/login" component={Login}></Route>
-            <Route exact path="/shop" component={Landing}></Route>
-            <Route exact path="/upload" component={UploadProduct}></Route>
-            <Route exact path="/product/:productId" component={ProductDetail}></Route>
-        </Switch>
-    </BrowserRouter>
+            <Navbar></Navbar>
+            <ToastContainer />
+            <Switch>
+                <Route exact path="/" component={Home}></Route>
+                <Route exact path="/register" component={Register}></Route>
+                <Route exact path="/login" component={Login}></Route>
+                <Route exact path="/shop" component={Landing}></Route>
+                <Route exact path="/upload" component={UploadProduct}></Route>
+                <Route exact path="/product/:productId" component={ProductDetail}></Route>
+                <Route exact path="/user/cart" component={CartPage}></Route>
+            </Switch>
+        </BrowserRouter>
     );
 };
 

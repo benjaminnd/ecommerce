@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
     history: { //orders history of user
         type: Array,
         default: []
+    },
+    cart: { //current cart of user
+        type: Array,
+        default: []
     }
 
     
