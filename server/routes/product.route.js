@@ -269,7 +269,7 @@ ProductRouter.get("/image/:productId", productById, (req,res) => {
 //@desc Get Product information
 //@access Public
 ProductRouter.post("/getCartItems", async (req,res) => {
-    const ids=  req.query.cartItems.split(',')
+    const ids =  req.query.cartItems.split(',')
     try{
         let list = await Product.find({_id: {$in: ids}})
         return res.json(list)
@@ -278,7 +278,5 @@ ProductRouter.post("/getCartItems", async (req,res) => {
         res.status(500).send('Invalid query')
     }
 })
-
-
 
 export default ProductRouter;

@@ -1,4 +1,4 @@
-import Axios from 'axios'
+ import Axios from 'axios'
 import React, { useState } from 'react'
 import {useParams} from 'react-router-dom'
 import { useEffect } from 'react'
@@ -25,8 +25,9 @@ function ProductDetail({isAuth}) {
         console.log(id)
         if(isAuth){
             dispatch(addToCartUser(id))
+        }else{
+            dispatch(addToCart(id))
         }
-        dispatch(addToCart(id))
     }
     return (
         <div className="py-12 sm:px-16">

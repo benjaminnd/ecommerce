@@ -17,10 +17,13 @@ const NavbarList = ({history, logout, cart, cartSum, userCart, isAuth}) => {
             }
         }
         useEffect(() => {
+            //use array reducer to sum up the count of cart
+            const reducer = (accumulator, currentValue) => accumulator + currentValue.quantity
+            const guestReducer = (accumulator, currentValue) => accumulator + currentValue.cartQuant
             if(isAuth){
-                setUserCartCount(userCart.length) 
+                setUserCartCount(userCart.reduce(reducer, 0)) 
             } else {
-                setCartCount(cart.length)
+                setCartCount(cart.reduce(guestReducer, 0))
             }
         }, [cart, userCart])
         return (

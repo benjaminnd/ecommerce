@@ -1,27 +1,44 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
-import {getCartItems} from '../data/reducers/auth'
+import CartTable from '../components/tables/CartTable';
+import {getCartItems, removeItemUser} from '../data/reducers/auth'
+import {removeItemGuest} from '../data/reducers/cart'
 
-function CartPage({user, getCartItems, cart}) {
+function CartPage({userCart, getCartItems, removeItemUser, removeItemGuest, userCartDetail, guestCart, isAuth}) {
     const [Cart, setCart] = useState([])
-    let userCart;
     useEffect(()=>{
+        console.log('guest cart...', guestCart)
         //get cart items from state users
-    if (user) {
-    userCart = user.cart.slice(0)
-    console.log(userCart)
-    getCartItems(userCart, user.cart)
+    if (userCart.length > 0) {
+        console.log('user cart...', userCart)
+     getCartItems(userCart)
     } 
-    },[user])
+    },[userCart])
+
+    const handleRemoveItem = () => {
+        if(isAuth){
+            return removeItemUser
+        }else{
+            return removeItemGuest
+        }
+    }
 
     return (
-        <div>
+        <div className="w-5/6 m-12 m-auto">
+            <div className=""><h1 className="font-bold text-xl pb-2 my-6">Cart Items</h1></div>
+            <div>
+                { isAuth && userCart.length > 0  && <CartTable cart={userCartDetail} removeItem={removeItemUser}/>}
+                { !isAuth && guestCart.length > 0  && <CartTable cart={guestCart} removeItem={removeItemGuest}/>}
+            </div>
         </div>
     )
 }
 const mapToStateProps = state => ({
-    user: state.auth.user
+    isAuth: state.auth.isAuthenticated,
+    userCart: state.auth.cart,
+    userCartDetail: state.auth.userCartWithDetails,
+    guestCart: state.cart.cart
 })
 
-export default connect(mapToStateProps, {getCartItems})(CartPage)
+export default connect(mapToStateProps, {getCartItems, removeItemUser, removeItemGuest})(CartPage)

@@ -189,9 +189,9 @@ UserRouter.post('/addToCart', UserAuth, (req,res) =>{
                     {_id: req.user.id, "cart.productId": req.query.productId},
                     {$inc: {"cart.$.quantity": 1}},
                     {new:true},
-                    ()=>{
+                    (err, user)=>{
                         if(err) return res.json({success:false, err});
-                        res.status(200).json(userInfo[0].cart)
+                        res.status(200).json(user)
                     }
                 )
             } else { //if the product is added the first time push a whole new cart object to cart array
@@ -208,12 +208,29 @@ UserRouter.post('/addToCart', UserAuth, (req,res) =>{
                         }
                     },
                     {new:true},
-                    () => {
+                    (err, user) => {
                         if(err) return res.json({success:false, err});
-                        res.status(200).json(userInfo[0].cart)
+                        res.status(200).json(user)
                     }
                 )
             }
+        })
+})
+
+UserRouter.post('/removeCartItem', UserAuth, (req,res) =>{
+    console.log('Removing...', req.user.id, req.query.cartItem)
+    User.find({_id: req.user.id},
+        (err,user)=>{
+            console.log(user)
+            User.findOneAndUpdate(
+                {_id: user[0].id},
+                {$pull: {cart: {productId: req.query.cartItem} }},
+                {new: true},
+                (err, user)=>{
+                    if(err) return res.json({success: false, err})
+                    res.status(200).json(user)
+                }
+            )
         })
 })
 export default UserRouter;

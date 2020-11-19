@@ -63,12 +63,21 @@ export default function(state = initialState, action) {
             };
         case C.USER_ADD_TO_CART:
             return {
-                ...state
+                ...state,
+                user: payload,
+                cart: payload.cart
+
             }
         case C.USER_RETRIEVE_CART:
             return {
                 ...state,
-                userCart: payload
+                userCartWithDetails: payload
+            }
+        case C.USER_REMOVE_ITEM:
+            return {
+                ...state,
+                user: payload,
+                cart: payload.cart
             }
         default: 
             return state;
@@ -180,37 +189,52 @@ export const logout = () => dispatch => {
     })
 }
 
-export const addToCartUser = (_id) => {
+export const addToCartUser = (_id) => dispatch=> {
     console.log('adding to cart.....')
     const request = axios.post(`${URLDevelopment}/api/user/addToCart?productId=${_id}`)
-    .then(response=>response.data);
-    console.log(request)
-    return {
-        type: C.USER_ADD_TO_CART,
-        payload: request
-    }
+    .then(response=>{
+        console.log('added cart,', response.data)
+        dispatch ({
+            type: C.USER_ADD_TO_CART,
+            payload: response.data
+        })
+
+    });
 }   
 
-export const getCartItems = (cartItems, userCart) => dispatch => {
-    let ids = cartItems.map((item)=>item.productId)
-    console.log('cart items', cartItems)
+export const getCartItems = (cart) => dispatch => {
+    let ids = cart.map((item)=>item.productId)
+    console.log('cart items', cart)
     console.log(ids)
 
     const request = axios.post(`${URLDevelopment}/api/product/getCartItems?cartItems=${ids}`)
     .then(response=>{
         let cartToRender = response.data
+        console.log('cart to render', cartToRender)
         cartToRender.forEach((item,index) => {
-            userCart.forEach(u => {
-                if(item._id === u.productId) {
-                    cartToRender[index].quantityCart = u.quantity;
+            cart.forEach(c => {
+                if(item._id === c.productId) {
+                    cartToRender[index].quant = c.quantity;
                 }
             });
         });
-        console.log('cart to render ', cartToRender)
+        console.log('cart to render with quant ', cartToRender)
         dispatch ({
             type: C.USER_RETRIEVE_CART,
             payload: cartToRender
         })
     });
     
+}   
+
+export const removeItemUser = (_id) => dispatch => {
+
+    const request = axios.post(`${URLDevelopment}/api/user/removeCartItem?cartItem=${_id}`).
+    then(response=>{
+        console.log('user after removed.. ', response.data)
+        dispatch({
+            type: C.USER_REMOVE_ITEM,
+            payload: response.data
+        })
+    })
 }   

@@ -7,7 +7,6 @@ import C from '../cartConstants';
 
 const initialState = {
     cart: [], //cart of items that is stored separatedly regardless of item id
-    total: [] // sum of cart items based on ids
 }
 
 export default function(state = initialState, action) {
@@ -15,35 +14,30 @@ export default function(state = initialState, action) {
     switch(type) {
         case C.ADD_ITEM:
             console.log('item added to cart');
-            //store array of all single cart items to the local storage
-            let tempCart = JSON.stringify([...state.cart, payload])
-            localStorage.setItem('tempCart', tempCart)
             //search if item is already in cart
-            let found = state.total.findIndex((item, index)=>{
+            let found = state.cart.findIndex((item, index)=>{
                 return item._id === payload._id
             })
-            console.log(found)
+            //console.log(found)
             if(found >= 0){
-                state.total[found].quant += 1
-                //store array of unique id cart item to the local storage
-                let tempTotalCart = JSON.stringify([...state.total])
-                localStorage.setItem('tempTotalCart', tempTotalCart)
+                state.cart[found].cartQuant += 1
+                let tempCart = JSON.stringify([...state.cart])
+                localStorage.setItem('tempCart', tempCart)
                 return {
-                    cart: [...state.cart, payload],
-                    //if item is found then increment the quantity of the item
-                    total: [...state.total]
+                    cart: [...state.cart]
                 }
             }else{
-                let tempTotalCart = JSON.stringify([...state.total, payload])
-                localStorage.setItem('tempTotalCart', tempTotalCart)
+                let tempCart = JSON.stringify([...state.cart, payload])
+                localStorage.setItem('tempCart', tempCart)
                 return {
-                    cart: [...state.cart, payload],
-                    total: [...state.total, payload]
+                    cart: [...state.cart, payload]
                 }
             }
 
         case C.LOAD_CART:
-            return  payload
+            return  {
+                cart: payload
+            }
             
         default: return state
     }
@@ -53,23 +47,11 @@ export default function(state = initialState, action) {
 export const loadCart = () => (dispatch) => {
     try{
         console.log('load cart from local storage')
-        let loadedCartState = {
-            cart: [],
-            total: []
-        }
         //get cart array from local storage
         const localCart = JSON.parse(localStorage.getItem('tempCart') || "[]")
-        const localTempCart = JSON.parse(localStorage.getItem('tempTotalCart') || "[]")
-        if(localCart) {
-            loadedCartState.cart = localCart
-        }
-        if(localTempCart) {
-            loadedCartState.total = localTempCart
-        }
-
         dispatch({
             type: C.LOAD_CART,
-            payload: loadedCartState
+            payload: localCart
         })
 
     }catch(error) {
@@ -96,14 +78,14 @@ export const emptyCart = () => (dispatch) => {
         console.log(error.response)
     }
 }
-//add item to temp cart
+//add item to guest cart
 export const addToCart = (id) => async(dispatch) => {
     try{
         console.log('adding to cart.....')
         const request = axios.get(`${URLDevelopment}/api/product/${id}`)
         .then(response=>{
             console.log(response.data)
-            response.data.quant = 1
+            response.data.cartQuant = 1
             dispatch( {
                 type: C.ADD_ITEM,
                 payload: response.data
@@ -113,4 +95,8 @@ export const addToCart = (id) => async(dispatch) => {
     }catch(error) {
         console.log(error.response)
     }
+}
+//remove item from guest cart
+export const removeItemGuest = (id) => async(dispatch) => {
+    console.log('Removing...', id)
 }
