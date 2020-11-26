@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CartTable({cart, removeItem}) {
+function CartTable({cart, removeItem, isAuth}) {
     const renderCartImage = (images) => {
         console.log('cart', cart)
         if(images && images.length > 0) {
@@ -12,14 +12,15 @@ function CartTable({cart, removeItem}) {
     const renderItems = () => (
         cart && cart.map(product => (
             <tr key={product._id}>
-                <td>
+                <td className="flex items-center">
                     <img style={{ width: '70px' }} alt="product" 
                     src={renderCartImage(product.images)} />
+                    <p>{product.name}</p>
                 </td> 
-                <td>{product.quant} EA</td>
+                <td>{isAuth ? product.quant : product.cartQuant} EA</td>
                 <td>$ {product.price} </td>
                 <td><button 
-                onClick={()=>removeItem(product._id)}
+                onClick={()=>removeItem(cart, product._id)}
                 >Remove </button> </td>
             </tr>
         ))
@@ -30,7 +31,7 @@ function CartTable({cart, removeItem}) {
         <table>
             <thead>
                 <tr>
-                    <th>Product Image</th>
+                    <th>Product</th>
                     <th>Product Quantity</th>
                     <th>Product Price</th>
                     <th>Remove from Cart</th>
@@ -43,5 +44,6 @@ function CartTable({cart, removeItem}) {
     </div>
     )
 }
+
 
 export default CartTable

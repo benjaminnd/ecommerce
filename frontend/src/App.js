@@ -17,12 +17,12 @@ function App() {
         console.log(store.getState());
     })
     useEffect(()=> {
+        console.log('Loading state')
         //store.dispatch(emptyCart())
         store.dispatch(loadCart())
         store.dispatch(loadUser())
-        store.dispatch(loadProducts)
+        store.dispatch(loadProducts())
         store.dispatch(loadCategories)
-        console.log('loading');
     }, []);
     return (
     <Provider store={store}>

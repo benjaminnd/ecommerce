@@ -20,9 +20,10 @@ export default function(state = initialState, action) {
                 productUploaded: true
             }
         case C.PRODUCTS_LOADED:
+            console.log('products loaded')
             return {
                 ...state,
-                products: [...payload],
+                products: payload,
                 productUploaded: false
             }
         case C.FINISH_UPLOAD:
@@ -34,19 +35,6 @@ export default function(state = initialState, action) {
     }
 }
 
-//load all products from form
-export const loadProducts = () => async(dispatch) => {
-    try {
-        const res = await axios.get(`${URLDevelopment}/api/product/list`)
-        console.log('loading products from the store')
-        dispatch({
-            type: C.PRODUCTS_LOADED,
-            payload: res.data
-        })
-    }catch(error){
-        console.log(error.response)
-    }
-}
 
 export const finishUpload = ()=> async(dispatch) => {
     console.log('Finishing uploading ....')
@@ -54,6 +42,22 @@ export const finishUpload = ()=> async(dispatch) => {
         type: C.FINISH_UPLOAD
     })
 
+}
+
+//load all products from form
+export const loadProducts = () => dispatch => {
+    console.log('loading products from the store')
+    axios.get(`${URLDevelopment}/api/product/all`).then(response=>{
+        if(response.data.success){
+            console.log('response getting product', response)
+            dispatch({
+                type: C.PRODUCTS_LOADED,
+                payload: response.data.list
+            })
+        }else{
+            toast.error(response.data.err)
+        }
+})
 }
 
 export const addProduct = (product) => async(dispatch) => {

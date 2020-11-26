@@ -39,6 +39,21 @@ export default function(state = initialState, action) {
                 cart: payload
             }
             
+        case C.EMPTY_CART:
+            return  {
+                cart: payload
+            }
+            
+        case C.REMOVE_ITEM:
+            return  {
+                cart: payload
+            }
+            
+        case C.GUEST_SUCCESS_PAY:
+            return  {
+                cart: payload
+            }
+            
         default: return state
     }
 }
@@ -62,18 +77,13 @@ export const loadCart = () => (dispatch) => {
 export const emptyCart = () => (dispatch) => {
     try{
         console.log('load cart from local storage')
-        let emptyCartState = {
-            cart: [],
-            total: []
-        }
+        let emptyCart = []
         //empty cart arrays from local storage
-        localStorage.setItem('tempCart', JSON.stringify(emptyCartState.cart))
-        localStorage.setItem('tempTotalCart', JSON.stringify(emptyCartState.total))
+        localStorage.setItem('tempCart', JSON.stringify(emptyCart))
         dispatch({
-            type: C.LOAD_CART,
-            payload: emptyCartState
-        })
-
+            type: C.EMPTY_CART,
+            payload: emptyCart
+        }) 
     }catch(error) {
         console.log(error.response)
     }
@@ -86,7 +96,7 @@ export const addToCart = (id) => async(dispatch) => {
         .then(response=>{
             console.log(response.data)
             response.data.cartQuant = 1
-            dispatch( {
+            dispatch({
                 type: C.ADD_ITEM,
                 payload: response.data
             })
@@ -97,6 +107,21 @@ export const addToCart = (id) => async(dispatch) => {
     }
 }
 //remove item from guest cart
-export const removeItemGuest = (id) => async(dispatch) => {
-    console.log('Removing...', id)
+export const removeItemGuest = (cart, id) => async(dispatch) => {
+    const cartAfterRemoved = cart.filter(item=>item._id !== id)
+    console.log(cartAfterRemoved)
+    localStorage.setItem('tempCart', JSON.stringify(cartAfterRemoved))
+    dispatch({
+        type: C.REMOVE_ITEM,
+        payload: cartAfterRemoved
+    })
+
+}
+
+export const onSuccessBuyGuest = (data) => dispatch => {
+    localStorage.setItem('tempCart', JSON.stringify(data.updatedCart))
+    dispatch({
+        type: C.GUEST_SUCCESS_PAY,
+        payload: data.updatedCart
+    })
 }

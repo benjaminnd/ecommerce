@@ -36,6 +36,13 @@ const upload = multer({ storage: storage }).single("file")
 //             Product
 //=================================
 
+ProductRouter.get('/all', async(req, res)=> {
+    Product.find({}).exec((err, list)=>{
+        if (err) return res.status(400).send({success: false, err})
+        return res.status(200).send({success: true, list})
+    })
+})
+
 ProductRouter.post('/uploadImage', UserAuth, AdminAuth, (req, res) => {
     upload(req, res, err => {
         console.log(req)

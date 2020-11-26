@@ -79,6 +79,17 @@ export default function(state = initialState, action) {
                 user: payload,
                 cart: payload.cart
             }
+        case C.USER_BUY_SUCCESS:
+            return {
+                ...state,
+                //empty user cart state to empty the cart page
+                user: {
+                    ...state.user,
+                    cart: action.payload.updatedCart,
+                },
+                userCartWithDetails: [],
+                cart: []
+            }
         default: 
             return state;
     }
@@ -227,14 +238,29 @@ export const getCartItems = (cart) => dispatch => {
     
 }   
 
-export const removeItemUser = (_id) => dispatch => {
+export const removeItemUser = (cart, _id) => dispatch => {
 
     const request = axios.post(`${URLDevelopment}/api/user/removeCartItem?cartItem=${_id}`).
     then(response=>{
-        console.log('user after removed.. ', response.data)
-        dispatch({
-            type: C.USER_REMOVE_ITEM,
-            payload: response.data
-        })
+        if(response.data.success){
+            console.log('user after removed.. ', response.data)
+            dispatch({
+                type: C.USER_REMOVE_ITEM,
+                payload: response.data.user
+            })
+        }else{
+            console.log('Error getting user data')
+            toast.error(response.data.error)
+        }
+
+    })
+}   
+
+
+export const onSuccessBuy = (data) => dispatch => {
+
+    dispatch({
+        type: C.USER_BUY_SUCCESS,
+        payload: data
     })
 }   
