@@ -17,6 +17,7 @@ function Landing() {
         category: [],
         price: []
     })
+    
     useEffect(()=>{
         const params = {
             skip: Skip,
@@ -28,6 +29,7 @@ function Landing() {
     useEffect(()=> {
         console.log(Products)
     }, [Products])
+
 
     const getProducts = (filters) => {
         console.log('Filters: ', filters)

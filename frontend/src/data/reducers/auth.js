@@ -74,6 +74,7 @@ export default function(state = initialState, action) {
                 userCartWithDetails: payload
             }
         case C.USER_REMOVE_ITEM:
+        case C.USER_CHANGE_ITEM:
             return {
                 ...state,
                 user: payload,
@@ -238,12 +239,30 @@ export const getCartItems = (cart) => dispatch => {
     
 }   
 
-export const removeItemUser = (cart, _id) => dispatch => {
+export const removeItemUser = (_id) => dispatch => {
 
     const request = axios.post(`${URLDevelopment}/api/user/removeCartItem?cartItem=${_id}`).
     then(response=>{
         if(response.data.success){
             console.log('user after removed.. ', response.data)
+            dispatch({
+                type: C.USER_REMOVE_ITEM,
+                payload: response.data.user
+            })
+        }else{
+            console.log('Error getting user data')
+            toast.error(response.data.error)
+        }
+
+    })
+}
+
+export const changeQuantity = (_id, quantity) => dispatch => {
+    console.log('Changing quantity', _id, quantity)
+    axios.post(`${URLDevelopment}/api/user/changeItem?cartItem=${_id}&newValue=${quantity}`).
+    then(response=>{
+        if(response.data.success){
+            console.log('user after change quantity ', response.data)
             dispatch({
                 type: C.USER_REMOVE_ITEM,
                 payload: response.data.user

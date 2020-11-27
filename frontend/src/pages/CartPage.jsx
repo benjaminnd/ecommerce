@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import { toast } from 'react-toastify';
 import Paypal from '../components/payment/Paypal';
 import CartTable from '../components/tables/CartTable';
-import {getCartItems, removeItemUser, onSuccessBuy} from '../data/reducers/auth'
+import {getCartItems, removeItemUser, onSuccessBuy, changeQuantity} from '../data/reducers/auth'
 import {removeItemGuest, onSuccessBuyGuest} from '../data/reducers/cart'
 import URLDevelopment from '../helpers/URL';
 
-function CartPage({userCart, getCartItems, removeItemUser, onSuccessBuy, onSuccessBuyGuest, removeItemGuest, userCartDetail, guestCart, isAuth}) {
+function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuccessBuy, onSuccessBuyGuest, removeItemGuest, userCartDetail, guestCart, isAuth}) {
     const [UserCart, setUserCart] = useState([])
     const [GuestCart, setGuestCart] = useState([])
     const [UserTotal, setUserTotal] = useState(0)
@@ -34,7 +34,9 @@ function CartPage({userCart, getCartItems, removeItemUser, onSuccessBuy, onSucce
          if(guestCart) setGuestTotal(guestCart.reduce(totalReducer, 0))
     }, [guestCart])
 
-
+    const handleQuantity = (id, newQuant) => {
+        changeQuantity(id, newQuant)
+    }
     const transactionSuccess = (data) => {
         let payment = {
             cartDetail: UserCart, paymentData: data
@@ -84,7 +86,7 @@ function CartPage({userCart, getCartItems, removeItemUser, onSuccessBuy, onSucce
             <div className=""><h1 className="font-bold text-xl pb-2 my-6">Cart Items</h1></div>
             <div>
                 {userCart.length <= 0 &&  guestCart.length <=0 && <p className="italic">No items to show</p>}
-                { isAuth && userCart.length > 0  && <CartTable cart={userCartDetail} removeItem={removeItemUser} isAuth={isAuth}/>}
+                { isAuth && userCart.length > 0  && <CartTable cart={userCartDetail} removeItem={removeItemUser} handleQuantity={handleQuantity} isAuth={isAuth}/>}
                 { !isAuth && guestCart.length > 0  && <CartTable cart={guestCart} removeItem={removeItemGuest} isAuth={isAuth}/>}
             </div>
             <div>
@@ -129,4 +131,4 @@ const mapToStateProps = state => ({
     guestCart: state.cart.cart
 })
 
-export default connect(mapToStateProps, {getCartItems, removeItemUser, removeItemGuest, onSuccessBuyGuest, onSuccessBuy})(CartPage)
+export default connect(mapToStateProps, {getCartItems, removeItemUser, changeQuantity, removeItemGuest, onSuccessBuyGuest, onSuccessBuy})(CartPage)

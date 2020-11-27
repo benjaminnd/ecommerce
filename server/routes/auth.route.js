@@ -338,7 +338,27 @@ UserRouter.post('/successPayGuest', (req, res)=> {
 })
 
 UserRouter.post('/removeCartItem', UserAuth, (req,res) =>{
-    console.log('Removing...', req.user.id, req.query.cartItem)
+    console.log('Removing...', req.user.id, req.query)
+    User.find({_id: req.user.id},
+        (err,user)=>{
+            console.log(user)
+            User.findOneAndUpdate(
+                {_id: user[0].id, 'cart.productId': req.query._id},
+                {$set: {'cart.$.quant': req.query.quantity }},
+                {new: true},
+                (err, user)=>{
+                    if(err) return res.json({success: false, error: 'Cannot retrieve user information'})
+                    res.status(200).json({
+                        success: true,
+                        user: user
+                    })
+                }
+            )
+        })
+})
+
+UserRouter.post('/changeItem', UserAuth, (req,res) =>{
+    console.log('Changing', req.user.id, req.query.cartItem)
     User.find({_id: req.user.id},
         (err,user)=>{
             console.log(user)

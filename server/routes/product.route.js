@@ -252,7 +252,15 @@ ProductRouter.post("/list", async (req,res) => {
 ProductRouter.get("/:productId", productById, (req,res) => {
     req.product.image = undefined;
     console.log('Querying product')
-    return res.json(req.product);
+    Product.findByIdAndUpdate(
+        {_id: req.product._id},
+        {views: req.product.views + 1},
+        (err, product)=>{
+            if(err)  return res.status(400).json(err)
+            console.log('new views', product.views)
+            return res.status(200).json(product)
+        }
+    )
 })
 
 

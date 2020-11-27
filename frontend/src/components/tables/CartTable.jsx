@@ -1,6 +1,9 @@
 import React from 'react'
+import { useState } from 'react'
+import product from '../../data/reducers/product'
+import CartItem from './CartItem'
 
-function CartTable({cart, removeItem, isAuth}) {
+function CartTable({cart, removeItem, handleQuantity, isAuth}) {
     const renderCartImage = (images) => {
         console.log('cart', cart)
         if(images && images.length > 0) {
@@ -9,20 +12,23 @@ function CartTable({cart, removeItem, isAuth}) {
         }
     }
 
+    function useInputForm(initialValue){
+        const [quantity, setQuantity] = useState(initialValue)
+
+        function handleChange(e){
+            setQuantity(e.target.value)
+        }
+
+        return {
+            quantity,
+            onChange: handleChange
+        }
+    }
+    
+
     const renderItems = () => (
         cart && cart.map(product => (
-            <tr key={product._id}>
-                <td className="flex items-center">
-                    <img style={{ width: '70px' }} alt="product" 
-                    src={renderCartImage(product.images)} />
-                    <p>{product.name}</p>
-                </td> 
-                <td>{isAuth ? product.quant : product.cartQuant} EA</td>
-                <td>$ {product.price} </td>
-                <td><button 
-                onClick={()=>removeItem(cart, product._id)}
-                >Remove </button> </td>
-            </tr>
+            <CartItem  key={product._id} cart={cart} product={product} isAuth={isAuth} removeItem={removeItem} renderCartImage={renderCartImage} handleQuantity={handleQuantity} />
         ))
     )
 
