@@ -25,8 +25,8 @@ function CartItem({cart, product, isAuth, renderCartImage, removeItem, handleQua
             <p>{product.name}</p>
         </td> 
         <td>
-            {isAuth && <input type="number" {...userQuantity} /> }
-            {!isAuth && <input type="number" {...guestQuantity} /> }
+            {isAuth && <input type="number" min="1" {...userQuantity} /> }
+            {!isAuth && <input type="number" min="1" {...guestQuantity} /> }
                 EA
             </td>
         <td>$ {product.price} </td>

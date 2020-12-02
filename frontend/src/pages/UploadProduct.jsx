@@ -9,7 +9,7 @@ import {addProduct, finishUpload, loadProducts} from '../data/reducers/product'
 import {useHistory} from 'react-router-dom'
 
 
-const UploadProduct = ({addProduct, finishUpload, stateCategories, uploadSuccessful}) => {
+const UploadProduct = ({addProduct, finishUpload, stateCategories, stateProductTypes, uploadSuccessful}) => {
     let history = useHistory();
     const [product, setProduct] = useState({
         name: '',
@@ -43,6 +43,10 @@ const UploadProduct = ({addProduct, finishUpload, stateCategories, uploadSuccess
 
     const handleSelect = selected => {
         setProduct({...product, category: selected })
+    }
+
+    const handleSelectType = selected => {
+        setProduct({...product, productType: selected })
     }
 
     //handle onFileChange
@@ -85,6 +89,11 @@ const UploadProduct = ({addProduct, finishUpload, stateCategories, uploadSuccess
                 options={stateCategories}
                 onSelect={handleSelect}
             />
+            <DropdownMenu
+                title='Product Type' 
+                options={stateProductTypes}
+                onSelect={handleSelectType}
+            />
             <FormInput
                 title='Description' 
                 placeholder='Product Description'
@@ -121,7 +130,7 @@ const UploadProduct = ({addProduct, finishUpload, stateCategories, uploadSuccess
                 type='checkbox'
             />
             <div>
-            <Button title='Add Product' addStyle='bg-primary text-white w-full mb-3' action={onSubmit} type='submit'/>
+            <Button isButton="true" title='Add Product' addStyle='bg-primary text-white w-full mb-3' action={onSubmit} type='submit'/>
             </div>
             </form>
         </Container>
@@ -130,6 +139,7 @@ const UploadProduct = ({addProduct, finishUpload, stateCategories, uploadSuccess
 
 const mapToStateProps = state => ({
     stateCategories: state.category.categories,
+    stateProductTypes: state.product.productTypes,
     uploadSuccessful: state.product.productUploaded
 })
 export default connect(mapToStateProps, {addProduct, finishUpload})(UploadProduct)

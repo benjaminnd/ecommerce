@@ -5,20 +5,26 @@ import { toast } from 'react-toastify';
 import Paypal from '../components/payment/Paypal';
 import CartTable from '../components/tables/CartTable';
 import {getCartItems, removeItemUser, onSuccessBuy, changeQuantity} from '../data/reducers/auth'
-import {removeItemGuest, onSuccessBuyGuest} from '../data/reducers/cart'
+import {removeItemGuest, onSuccessBuyGuest, guestChangeQuantity} from '../data/reducers/cart'
 import URLDevelopment from '../helpers/URL';
 
-function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuccessBuy, onSuccessBuyGuest, removeItemGuest, userCartDetail, guestCart, isAuth}) {
+function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuccessBuy, onSuccessBuyGuest, removeItemGuest, guestChangeQuantity, userCartDetail, guestCart, isAuth}) {
     const [UserCart, setUserCart] = useState([])
     const [GuestCart, setGuestCart] = useState([])
     const [UserTotal, setUserTotal] = useState(0)
     const [GuestTotal, setGuestTotal] = useState(0)
+    const [showEmptyUser, setShowEmptyUser] = useState(true)
+    const [showEmptyGuest, setShowEmptyGuest] = useState(true)
     useEffect(()=>{
         console.log('guest cart...', guestCart)
         //get cart items from state users
     if (userCart.length > 0) {
         console.log('user cart...', userCart)
-     getCartItems(userCart)
+        setShowEmptyUser(false)
+        getCartItems(userCart)
+    }else{
+        setShowEmptyUser(true)
+        console.log('set empty user')
     } 
     },[userCart])
 
@@ -27,19 +33,27 @@ function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuc
         const totalReducer = (accumulator, currentValue) => accumulator + currentValue.price * currentValue.quant
         if(userCartDetail) setUserTotal(userCartDetail.reduce(totalReducer, 0))
     }, [userCartDetail])
+    
 
     useEffect(() => {
         setGuestCart(guestCart)
         const totalReducer = (accumulator, currentValue) => accumulator + currentValue.price * currentValue.cartQuant
-         if(guestCart) setGuestTotal(guestCart.reduce(totalReducer, 0))
+         if(guestCart.length>0) {
+            setShowEmptyGuest(false)
+            setGuestTotal(guestCart.reduce(totalReducer, 0))
+         }else{setShowEmptyGuest(true)} 
     }, [guestCart])
 
     const handleQuantity = (id, newQuant) => {
         changeQuantity(id, newQuant)
     }
+
+    const guestHandleQuantity = (id, newQuant) => {
+        guestChangeQuantity(id, newQuant)
+    }
     const transactionSuccess = (data) => {
         let payment = {
-            cartDetail: UserCart, paymentData: data
+            cartDetail: UserCart, paymentData: data 
         }
 
         axios.post(`${URLDevelopment}/api/user/successPay`, payment).then(response=> {
@@ -71,13 +85,13 @@ function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuc
 
     const transactionError = () => {
 
-        console.log('Paypal Error')
+        toast.warning('Errors occurs while paying. Please try again')
 
     }
 
     const transactionCanceled = () => {
 
-        console.log('Paypal Error')
+        toast.info('payment canceled')
 
     }
 
@@ -85,9 +99,10 @@ function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuc
         <div className="w-5/6 m-12 m-auto">
             <div className=""><h1 className="font-bold text-xl pb-2 my-6">Cart Items</h1></div>
             <div>
-                {userCart.length <= 0 &&  guestCart.length <=0 && <p className="italic">No items to show</p>}
+                { !isAuth && showEmptyGuest && <p className="italic">No items to show</p>}
+                { isAuth && showEmptyUser && <p className="italic">No items to show</p>}
                 { isAuth && userCart.length > 0  && <CartTable cart={userCartDetail} removeItem={removeItemUser} handleQuantity={handleQuantity} isAuth={isAuth}/>}
-                { !isAuth && guestCart.length > 0  && <CartTable cart={guestCart} removeItem={removeItemGuest} isAuth={isAuth}/>}
+                { !isAuth && guestCart.length > 0  && <CartTable cart={guestCart} removeItem={removeItemGuest} isAuth={isAuth} handleQuantity={guestHandleQuantity}/>}
             </div>
             <div>
                 <span className="flex">
@@ -119,7 +134,8 @@ function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuc
                 <Paypal
                     total={GuestTotal}
                     onSuccess={guestTransactionSuccess}
-                    transactionError={transactionError}/>
+                    onError={transactionError}
+                    onCancel={transactionCanceled}/>
                 }
         </div>
     )
@@ -131,4 +147,4 @@ const mapToStateProps = state => ({
     guestCart: state.cart.cart
 })
 
-export default connect(mapToStateProps, {getCartItems, removeItemUser, changeQuantity, removeItemGuest, onSuccessBuyGuest, onSuccessBuy})(CartPage)
+export default connect(mapToStateProps, {getCartItems, removeItemUser, changeQuantity, removeItemGuest, guestChangeQuantity, onSuccessBuyGuest, onSuccessBuy})(CartPage)

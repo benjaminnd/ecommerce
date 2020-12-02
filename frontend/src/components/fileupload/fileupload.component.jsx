@@ -51,7 +51,6 @@ const FileUpload = ({imagesRefresh})=>{
             <Dropzone
                 onDrop={onDrop}
                 multiple={false}
-                maxSize={1000000}
             >
                 {({ getRootProps, getInputProps }) => (
                     <div className="flex items-center justify-center w-1/3 border-solid border-gray-400 border-2 h-64"

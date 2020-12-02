@@ -343,11 +343,12 @@ UserRouter.post('/removeCartItem', UserAuth, (req,res) =>{
         (err,user)=>{
             console.log(user)
             User.findOneAndUpdate(
-                {_id: user[0].id, 'cart.productId': req.query._id},
-                {$set: {'cart.$.quant': req.query.quantity }},
+                {_id: user[0]._id},
+                {$pull: {cart: {productId: req.query.cartItem} }},
                 {new: true},
                 (err, user)=>{
                     if(err) return res.json({success: false, error: 'Cannot retrieve user information'})
+                    console.log('REMOVED')
                     res.status(200).json({
                         success: true,
                         user: user
@@ -358,23 +359,25 @@ UserRouter.post('/removeCartItem', UserAuth, (req,res) =>{
 })
 
 UserRouter.post('/changeItem', UserAuth, (req,res) =>{
-    console.log('Changing', req.user.id, req.query.cartItem)
-    User.find({_id: req.user.id},
-        (err,user)=>{
-            console.log(user)
-            User.findOneAndUpdate(
-                {_id: user[0].id},
-                {$pull: {cart: {productId: req.query.cartItem} }},
-                {new: true},
-                (err, user)=>{
-                    if(err) return res.json({success: false, error: 'Cannot retrieve user information'})
-                    res.status(200).json({
-                        success: true,
-                        user: user
-                    })
-                }
-            )
-        })
+    console.log('Changing', req.user.id, req.query.cartItem, req.query.newValue)
+    User.find({_id: req.user.id}, (err, doc)=>{
+        if (err) return res.status(400).send('Server error')
+        const userCart = doc[0].cart
+        console.log('Before change', userCart)
+        const index = userCart.findIndex(item=>item.productId = req.query.cartItem)
+        userCart[index].quantity = (+req.query.newValue)
+        console.log('After change', userCart)
+
+        User.findOneAndUpdate({_id:req.user.id},
+            {$set: {cart: userCart}},
+            {new: true},
+            (err, doc)=> {
+                if(err) return res.json({success: false, err})
+                return res.json({success: true, user: doc })
+            })
+
+    })
+
 })
 
 export default UserRouter;

@@ -239,8 +239,8 @@ export const getCartItems = (cart) => dispatch => {
     
 }   
 
-export const removeItemUser = (_id) => dispatch => {
-
+export const removeItemUser = (cart, _id) => dispatch => {
+    console.log('REMOVING', _id)
     const request = axios.post(`${URLDevelopment}/api/user/removeCartItem?cartItem=${_id}`).
     then(response=>{
         if(response.data.success){

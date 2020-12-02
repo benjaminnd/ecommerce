@@ -59,7 +59,7 @@ const Login = ({login, isAuth, isLoading, user}) => {
 
 
             {isLoading ? (<div className="lds-ellipsis object-center"><div></div><div></div><div></div><div></div></div>) :
-            (<Button title='Login' addStyle='bg-primary text-white w-full mb-3' action={onSubmit} type='submit'/>)
+            (<Button isButton={true} title='Login' addStyle='bg-primary text-white w-full mb-3' action={onSubmit} type='submit'/>)
             }
             
             </div>

@@ -16,20 +16,21 @@ import NavbarList from './navbar.list';
     
     return (
         <Container>
-          <nav className='navbar'>
+          <div className='navBar'>
             {/* Left Side */}
-            <div className='flex justify-between w-full md:w-32 items-center'>
-              <Link to='/' className='logo w-16 animate'>
-                <img src={require('../../assets/bennystore.png')} alt='Main Logo' />
-              </Link>
-              <NavbarToggle active={active} menuState={menuState} />
+            <div className="logo">
+              <img src={require('../../assets/bennystore.png')} alt='Main Logo'  width="150px" />
             </div>
+            {/* <div className='flex justify-between w-full md:w-32 items-center'>
+                <img src={require('../../assets/bennystore.png')} alt='Main Logo' />
+                <NavbarToggle active={active} menuState={menuState} />
+            </div> */}
     
             {/* Right Side */}
-            <div className={`${active ? 'flex' : 'hidden'} md:flex`}>
+            {/* <div className={`${active ? 'flex' : 'hidden'} md:flex`}> */}
               <NavbarList/>
-            </div>
-          </nav>
+            {/* </div> */}
+          </div>
         </Container>
       );
  }

@@ -6,8 +6,12 @@ import CheckBox from '../components/filters/CheckBox';
 import RadioBox from '../components/filters/RadioBox';
 import price from '../assets/price';
 import SearchBar from '../components/filters/SearchBar';
+import Button from '../components/buttons/button.component';
+import { changeShow } from '../data/reducers/category';
+import {connect, useDispatch} from 'react-redux'
 
-function Landing() {
+function Landing({toShow, changeShow}) {
+    const dispatch = useDispatch()
     const [Products, setProducts] = useState([])
     const [Skip, setSkip] = useState(0)
     const [Limit, setLimit] = useState(8)
@@ -18,27 +22,33 @@ function Landing() {
         price: []
     })
     
+    //get all products
     useEffect(()=>{
         const params = {
             skip: Skip,
             limit: Limit
         }
-        getProducts(params)
-    }, [])
+        getProducts(params, toShow)
+    }, [toShow])
                       
     useEffect(()=> {
         console.log(Products)
     }, [Products])
 
 
-    const getProducts = (filters) => {
-        console.log('Filters: ', filters)
+    const getProducts = (filters, show) => {
+        const newFilters = {
+            ...filters,
+            toShow: show
+        }
+        console.log('Filters: ', newFilters)
         // const params = new URLSearchParams(filters)
         const url = 'http://localhost:5000/api/product/list'
         // console.log('url', url)
-        axios.post(url, filters).then(response => {
+        axios.post(url, newFilters).then(response => {
             if(response.data){
                 if(filters.loadMore) {
+                    //when loadMore button is clicked concatenate the result array into the current products
                     setProducts(Products.concat(response.data.list ))
                 }else{
                     setProducts(response.data.list)
@@ -50,32 +60,29 @@ function Landing() {
             console.log(error)
         })
     }
-    const renderProducts =  Products.map((product, index) => {
-        return <Card key={index} productId={product._id} title={product.name} price={product.price} description={product.description} images={product.images}/>
-    })
-
-    const onLoadMore = ()=> {
-        let skip = Skip + Limit
-        const params = {
-            skip: skip,
-            limit: Limit,
-            loadMore: true
-        }
-        getProducts(params)
-        setSkip(skip)
-    }
-
-
+    
+    
+    
     const showFilteredProducts = (filters) => {
         const params = {
             skip: 0,
             limit: Limit,
             filters: filters
         }
-        getProducts(params)
+        getProducts(params, toShow)
         setSkip(0)
     }
-
+    const handleLoadmore = ()=> {
+        let skip = Skip + Limit
+        const params = {
+            skip: skip,
+            limit: Limit,
+            loadMore: true
+        }
+        getProducts(params, toShow)
+        setSkip(skip)
+    }
+    
     const handleFilters = (filters, name) =>{
         console.log('name', name)
         console.log('filters ',filters)
@@ -87,11 +94,11 @@ function Landing() {
             newFilters[name] = filters ? price[filters].range : [0]
         }
         console.log('New filters', newFilters)
-
+        
         setFilters(newFilters)
         showFilteredProducts(newFilters)
     }
-
+    
     const handleSearch = (searchText) => {
         setSearchText(searchText)
         const params = {
@@ -101,14 +108,24 @@ function Landing() {
             searchText: searchText 
         }
         setSkip(0)
-
-        getProducts(params)
+        
+        getProducts(params, toShow)
     }
-
+    
+    const handleChangeShow = (type) => {
+        changeShow(type)
+    }
+    
+    const renderProducts =  Products.map((product, index) => {
+        return <Card key={index} productId={product._id} title={product.name} price={product.price} description={product.description} images={product.images}/>
+    })
     return (
         <div className="w-2/3 mx-auto my-12">
-            <div className="text-center">
-                <h2 className="font-bold border-b border-gray-200 pb-2">Welcome to Benny's Store <ShoppingCartOutlined/></h2>
+            <div className="text-center flex justify-center">
+                {/* <h2 className="font-bold border-b border-gray-200 pb-2">Welcome to Benny's Store <ShoppingCartOutlined/></h2> */}
+                <Button isButton={true} title="Iphone Cases" action={()=>handleChangeShow('iphone')} href="/shop" addStyle=""/>
+                <Button isButton={true} title="Airpod Cases" action={()=>handleChangeShow('airpod')} href="/shop" addStyle=""/>
+                <Button isButton={true} title="All" action={()=>handleChangeShow('all')} href="/shop" addStyle=""/>
             </div>
             <div className="mb-4 flex -mx-2">
                 <div className="w-1/2 px-2">
@@ -130,11 +147,15 @@ function Landing() {
             </div>
             {Size >= Limit && 
             <div className="btn flex justify-center">
-                <button className="bg-transparent hover:bg-green-300 text-green-600 font-semibold hover:text-white py-2 px-4 border border-green-900 hover:border-transparent rounded focus:outline-none" onClick={onLoadMore}>Load More</button>
+                <button className="bg-transparent hover:bg-green-300 text-green-600 font-semibold hover:text-white py-2 px-4 border border-green-900 hover:border-transparent rounded focus:outline-none" onClick={handleLoadmore}>Load More</button>
             </div>
             }
         </div>
     )
 }
 
-export default Landing
+const mapToStateProps = state => ({
+    toShow: state.category.currentShow
+})
+
+export default connect (mapToStateProps, {changeShow})(Landing)

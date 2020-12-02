@@ -26,6 +26,12 @@ const ProductSchema = new mongoose.Schema({
         ref: "Category"
     },
 
+    productType: {
+        type: String,
+        required: true,
+        maxlength: 200
+    },
+
     quantity: {
         type: Number
     },

@@ -1,4 +1,4 @@
-import express from 'express'
+ import express from 'express'
 const ProductRouter = express.Router();
 import Product from '../models/Product.js';
 import UserAuth from '../middleware/auth.js';
@@ -199,7 +199,8 @@ ProductRouter.post("/list", async (req,res) => {
     let limit = req.body.limit ? parseInt(req.body.limit) : 100; //limiting number of products return
     let skip = parseInt(req.body.skip) //skipping certain number of products
     let findArgs = {};
-    let term = req.body.searchText
+    let term = req.body.searchText == '' ? ' ' : req.body.searchText 
+    let toShow = req.body.toShow
     console.log('filters', req.body.filters)
     for(let key in req.body.filters) {
         if(req.body.filters[key].length > 0) {
@@ -213,17 +214,21 @@ ProductRouter.post("/list", async (req,res) => {
             }
         }
     }
+    console.log(toShow)
+    if(toShow != 'all') {
+        findArgs['productType'] = toShow
+    }
+    if(term) findArgs['name'] = {$regex: term, $options: 'i'}
     console.log('findArgs', findArgs)
 
     if(!term){
         try {
             console.log('Getting list')
-            let list = await Product.find(findArgs).select('-image').populate('category').sort([
+            let list = await Product.find(findArgs).select('-image').populate({path:'category'}).sort([
                     [sortBy, listOrder]
                  ]).skip(skip).limit(limit).exec();
-            console.log(list.length)
+            console.log(list)
             res.json({list: list, size: list.length});
-    
         } catch(error) {
             console.log(error)
             res.status(500).send('Invalid queries')
@@ -232,7 +237,7 @@ ProductRouter.post("/list", async (req,res) => {
         console.log('search bar activated')
         try {
             console.log('Getting list')
-            let list = await Product.find({$text: {$search: term}}).select('-image').populate('category').sort([
+            let list = await Product.find(findArgs).select('-image').populate({path:'category'}).sort([
                     [sortBy, listOrder]
                  ]).skip(skip).limit(limit).exec();
             console.log(list.length)

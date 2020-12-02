@@ -35,21 +35,10 @@ export default function(state = initialState, action) {
             }
 
         case C.LOAD_CART:
-            return  {
-                cart: payload
-            }
-            
         case C.EMPTY_CART:
-            return  {
-                cart: payload
-            }
-            
         case C.REMOVE_ITEM:
-            return  {
-                cart: payload
-            }
-            
         case C.GUEST_SUCCESS_PAY:
+        case C.GUEST_CHANGE_QUANTITY:
             return  {
                 cart: payload
             }
@@ -116,6 +105,17 @@ export const removeItemGuest = (cart, id) => async(dispatch) => {
         payload: cartAfterRemoved
     })
 
+}
+
+export const guestChangeQuantity = (_id, newQuant) => dispatch => {
+    const tempCart = JSON.parse(localStorage.getItem('tempCart') || '[]')
+    const indexToChange = tempCart.findIndex(item=>item._id=_id)
+    tempCart[indexToChange].cartQuant = (+ newQuant)
+    localStorage.setItem('tempCart', JSON.stringify(tempCart))
+    dispatch({
+        type: C.GUEST_CHANGE_QUANTITY,
+        payload: tempCart
+    })
 }
 
 export const onSuccessBuyGuest = (data) => dispatch => {

@@ -44,7 +44,7 @@ CategoryRouter.post('/', [check('name', 'Name is required').trim().not().isEmpty
 CategoryRouter.get('/all', async(req, res)=> {
     try{
         const categories = await Category.find({})
-    console.log('All categories: ', categories)
+    //console.log('All categories: ', categories)
     res.json(categories)
     }catch(error){
         console.log(error);

@@ -78,7 +78,7 @@ const Register= ({register, isAuth, isLoading, user}) => {
 
 
             {isLoading ? (<div className="lds-ellipsis object-center"><div></div><div></div><div></div><div></div></div>) :
-            (<Button title='Signup' addStyle='bg-primary text-white w-full mb-3' action={onSubmit} type='submit'/>)
+            (<Button isButton = {true} title='Signup' addStyle='bg-primary text-white w-full mb-3' action={onSubmit} type='submit'/>)
             }
             
             </div>

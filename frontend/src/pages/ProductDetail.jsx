@@ -36,10 +36,10 @@ function ProductDetail({isAuth}) {
             </div>
 
             <div className="flex flex-wrap">
-                <div className="w-full sm:w-1/2 mb-4 p-3">
+                <div className="w-full sm:w-1/3 mb-4 p-3">
                     <ProductImage product={Product}/>
                 </div>   
-                <div className="w-full sm:w-1/2 mb-4 p-3">
+                <div className="w-full sm:w-2/3 mb-4 p-3">
                     <ProductInfo product={Product} addToCart={handleAddToCart}/>
                 </div>   
             </div>

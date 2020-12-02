@@ -8,7 +8,8 @@ import C from '../productConstants';
 //Initial State
 const initialState = {
     products: [],
-    productUploaded: false
+    productTypes: [{_id: 'iphone', name: 'iphone'}, {_id: 'airpod', name: 'airpod'}],
+    productUploaded: false //flag of successful upload and when the application should be redirected to homepage
 }
 
 export default function(state = initialState, action) {

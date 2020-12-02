@@ -17,9 +17,7 @@ function ProductImage({product}) {
         }
     }, [product])
     return (
-        <div>
-            <ImageGallery items={Images}/>
-        </div>
+        <ImageGallery items={Images}/>
     )
 }
 

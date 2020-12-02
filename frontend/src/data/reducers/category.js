@@ -6,7 +6,8 @@ import C from '../categoryConstants';
 //Initial State
 
 const initialState = {
-    categories: []
+    categories: [],
+    currentShow: "all"
 }
 
 export default function(state = initialState, action) {
@@ -15,7 +16,13 @@ export default function(state = initialState, action) {
         case C.CATEGORY_LOADED:
             console.log('categories loaded');
             return {
+                ...state, 
                 categories: [...state.categories, ...payload]
+            }
+        case C.CHANGE_SHOW: 
+            return {
+                ...state,
+                currentShow: payload
             }
         default: return state
     }
@@ -32,4 +39,13 @@ export const loadCategories = async(dispatch) => {
     }catch(error) {
         console.log(error.response)
     }
+}
+
+
+export const changeShow = data => dispatch => {
+    console.log('Change show to ', data)
+    dispatch({
+        type: C.CHANGE_SHOW,
+        payload: data
+    })
 }
