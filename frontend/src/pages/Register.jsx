@@ -7,6 +7,7 @@ import Button from '../components/buttons/button.component';
 import Container from '../components/containers/container.component';
 import FormInput from '../components/inputs/input.component';
 import {register} from '../data/reducers/auth';
+import Footer from './Footer';
 import './spinner.css';
 
 const Register= ({register, isAuth, isLoading, user}) => {
@@ -43,8 +44,9 @@ const Register= ({register, isAuth, isLoading, user}) => {
     } 
 
     return (
-        <Container>
-            <form className="bg-white rounded-lg overflow-hidden shadow-2xl p-5 my-16"  onSubmit={onSubmit}>
+        <>
+        <div className="flex justify-center">
+            <form className="bg-white rounded-lg overflow-hidden shadow-2xl p-5 my-16 w-1/2"  onSubmit={onSubmit}>
             <h2 className="font-bold text-3xl text-center mb-5">Register</h2>
             <FormInput
                 title='Name' 
@@ -87,7 +89,9 @@ const Register= ({register, isAuth, isLoading, user}) => {
                 <Button isButton={false} title='Already signed up?' href='/login' addStyle='text-sm italic text-gray-600'></Button>
             </div>
             </form>
-        </Container>
+        </div>
+        <Footer />
+        </>
     )
 }
 

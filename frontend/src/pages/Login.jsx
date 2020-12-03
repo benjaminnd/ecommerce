@@ -7,6 +7,7 @@ import Button from '../components/buttons/button.component';
 import Container from '../components/containers/container.component';
 import FormInput from '../components/inputs/input.component';
 import {login} from '../data/reducers/auth';
+import Footer from './Footer';
 
 
 const Login = ({login, isAuth, isLoading, user}) => {
@@ -37,8 +38,9 @@ const Login = ({login, isAuth, isLoading, user}) => {
     } 
 
     return (
-        <Container>
-            <form className="bg-white rounded-lg overflow-hidden shadow-2xl p-5 my-16"  onSubmit={onSubmit}>
+        <>
+        <div className="flex justify-center">
+            <form className="bg-white rounded-lg overflow-hidden shadow-2xl p-5 my-16 w-1/2"  onSubmit={onSubmit}>
             <h2 className="font-bold text-3xl text-center mb-5">Login</h2>
 
             <FormInput
@@ -68,7 +70,10 @@ const Login = ({login, isAuth, isLoading, user}) => {
                 <Button isButton={false} title='Create new account?' href='/login' addStyle='text-sm italic text-gray-600'></Button>
             </div>
             </form>
-        </Container>
+        </div>
+        <Footer/>
+        </>
+
     )
 }
 

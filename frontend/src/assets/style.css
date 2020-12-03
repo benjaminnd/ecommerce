@@ -309,19 +309,18 @@ h4 {
 }
 
 .footer-col-1{
-    flex-basis: 30%;
+    flex-basis: 25%;
     margin-left: 30px;
 }
 
 .footer-col-2{
-    flex: 1;
-    text-align: center;
+    
 }
 
 .footer-col-2 img{
     width: 180px;
     margin-bottom: 20px;
-    margin-left: 100px;
+
 }
 
 .footer-col-3 , .footer-col-4{

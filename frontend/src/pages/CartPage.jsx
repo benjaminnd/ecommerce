@@ -7,6 +7,7 @@ import CartTable from '../components/tables/CartTable';
 import {getCartItems, removeItemUser, onSuccessBuy, changeQuantity} from '../data/reducers/auth'
 import {removeItemGuest, onSuccessBuyGuest, guestChangeQuantity} from '../data/reducers/cart'
 import URLDevelopment from '../helpers/URL';
+import Footer from './Footer';
 
 function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuccessBuy, onSuccessBuyGuest, removeItemGuest, guestChangeQuantity, userCartDetail, guestCart, isAuth}) {
     const [UserCart, setUserCart] = useState([])
@@ -96,6 +97,7 @@ function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuc
     }
 
     return (
+        <>
         <div className="w-5/6 m-12 m-auto">
             <div className=""><h1 className="font-bold text-xl pb-2 my-6">Cart Items</h1></div>
             <div>
@@ -138,6 +140,8 @@ function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuc
                     onCancel={transactionCanceled}/>
                 }
         </div>
+        <Footer/>
+        </>
     )
 }
 const mapToStateProps = state => ({

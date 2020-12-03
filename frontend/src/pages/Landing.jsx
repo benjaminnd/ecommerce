@@ -9,6 +9,7 @@ import SearchBar from '../components/filters/SearchBar';
 import Button from '../components/buttons/button.component';
 import { changeShow } from '../data/reducers/category';
 import {connect, useDispatch} from 'react-redux'
+import Footer from './Footer';
 
 function Landing({toShow, changeShow}) {
     const dispatch = useDispatch()
@@ -122,6 +123,7 @@ function Landing({toShow, changeShow}) {
         return <Card key={index} productId={product._id} title={product.name} price={product.price} description={product.description} images={product.images}/>
     })
     return (
+        <>
         <div className="w-2/3 mx-auto my-12">
             <div className="text-center flex justify-center mb-3">
                 {/* <h2 className="font-bold border-b border-gray-200 pb-2">Welcome to Benny's Store <ShoppingCartOutlined/></h2> */}
@@ -153,6 +155,8 @@ function Landing({toShow, changeShow}) {
             </div>
             }
         </div>
+        <Footer/>
+        </>
     )
 }
 

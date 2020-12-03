@@ -4,7 +4,7 @@ import URLDevelopment from '../helpers/URL'
 function Footer() {
     return (
         <div className="footer">
-        <div className="container">
+        <div className="container-footer">
             <div className="row">
                 <div className="footer-col-1">
                     <h3>Download our App</h3>
@@ -38,7 +38,7 @@ function Footer() {
                 </div>
             </div>
             <hr/>
-            <p className="copyright">Copyright &copy; 2020 - www.nilara.com</p>
+            <p className="copyright">Copyright &copy; 2020</p>
         </div>
     </div>
     )
