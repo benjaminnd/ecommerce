@@ -9,7 +9,11 @@
     "npm": "6.14.5"
   },
   "scripts": {
-    "start": "npx nodemon --exec npx babel-node src/server.js",
+    "start2": "npx nodemon --exec npx babel-node src/server.js",
+    "build-babel": "babel -d ./build ./src -s",
+    "clean": "rm -rf build && mkdir build",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node ./build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "stop-win": "Taskkill /IM node.exe /F",
     "stop-linux": "killall node"
