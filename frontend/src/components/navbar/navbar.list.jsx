@@ -7,6 +7,7 @@ import {logout} from '../../data/reducers/auth';
 import {Badge} from 'antd'
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import NavbarToggle from './navbar.toggle';
+import URLDevelopment from '../../helpers/URL';
 const NavbarList = ({history, logout, cart, cartSum, userCart, isAuth}) => {
         const [CartCount, setCartCount] = useState(0)
         const [userCartCount, setUserCartCount] = useState(0)
@@ -47,7 +48,7 @@ const NavbarList = ({history, logout, cart, cartSum, userCart, isAuth}) => {
             </nav>
             <Badge count={isAuth? userCartCount : CartCount}>
                 <a href="/user/cart">
-                    <img src={`http://localhost:5000/uploads/cart.png`} alt="cart"  width="40px" height="50px" />
+                    <img src={`${URLDevelopment}/uploads/cart.png`} alt="cart"  width="40px" height="50px" />
                 </a>
             </Badge>              
             <NavbarToggle/>
