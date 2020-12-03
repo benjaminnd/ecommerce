@@ -35,7 +35,7 @@ const NavbarList = ({history, logout, cart, cartSum, userCart, isAuth}) => {
                 <ul id="menuItems">
                     <NavItem link='/' name="Home" listStyle={isActive(history, '/')} />
                     <NavItem link='/shop' name="Shop" listStyle={isActive(history, '/shop')} />
-                    <NavItem link='/dashboard' name="Dashboard" listStyle={isActive(history, '/dashboard')} />
+                    {/* <NavItem link='/dashboard' name="Dashboard" listStyle={isActive(history, '/dashboard')} /> */}
                     {isAuth? (<NavItem link='/upload' name='Upload' listStyle={isActive(history, '/upload')}/>) : ''}
                     {isAuth? (<NavItem link='/' name="Logout" listStyle='hover:text-primary' action ={()=>{logout()}} />) : 
                     (   <>

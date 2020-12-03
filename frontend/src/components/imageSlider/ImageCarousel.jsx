@@ -8,7 +8,7 @@ function ImageCarousel({images}) {
             <Carousel autoplay>
                 {images.map((image,index)=>(
                     <div key={index}>
-                        <img style={{width:'100%'}} src={`http://localhost:5000/${image}`} alt="product image"/>
+                        <img style={{width:'75%'}} src={`http://localhost:5000/${image}`} alt="product image"/>
                     </div>
                 ))}
             </Carousel>

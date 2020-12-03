@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import URLDevelopment from "../helpers/URL";
+import { changeShow } from '../data/reducers/category';
+import { connect } from "react-redux";
+import {useHistory} from 'react-router-dom'
+import Footer from "./Footer";
 
-const Home = () => {
+const Home = ({changeShow}) => {
+  const history = useHistory()
+  const handleChangeShow = (toShow) => {
+    changeShow(toShow)
+    history.push(`/shop`);
+  }
+
   return (
     <>
       <div className="topBanner">
@@ -15,12 +26,12 @@ const Home = () => {
               <br />
               When Images becomes inadequate, I shall be content with silence.
             </p> */}
-            <a href="" className="btn">
+            <a href="/shop" className="btn">
               Explore Now &#8594;
             </a>
           </div>
           <div className="col-2">
-            <img src="./360.png" alt="" />
+            <img src={`${URLDevelopment}/uploads/main-transparent.PNG`} alt="" width="50%" />
           </div>
         </div>
       </div>
@@ -29,7 +40,7 @@ const Home = () => {
           <div className="row">
             <div className="col-3">
                 <div className="content">
-                    <a href="/" target="_blank">
+                    <a onClick={()=>handleChangeShow('iphone')}>
                         <div className="content-overlay"></div>
                         <img className="content-image" src="./iphone_transparent.png"/>
                         <div className="content-details fadeIn-bottom">
@@ -40,7 +51,7 @@ const Home = () => {
             </div>
             <div className="col-3">
                 <div className="content">
-                    <a href="/" target="_blank">
+                    <a onClick={()=>handleChangeShow('airpod')}>
                         <div className="content-overlay"></div>
                         <img className="content-image" src="./airpod home page.png"/>
                         <div className="content-details fadeIn-bottom">
@@ -52,7 +63,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="smallContainer">
+      {/* <div className="smallContainer">
         <h2 className="title">Featured Products</h2>
         <div className="row">
           <div className="col-4">
@@ -108,9 +119,14 @@ const Home = () => {
             <p>Rs.1499</p>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Footer/>
     </>
   );
 };
 
-export default Home;
+const mapToStateProps = state => ({
+
+})
+
+export default connect (mapToStateProps, {changeShow}) (Home)

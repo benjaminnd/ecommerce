@@ -14,7 +14,7 @@ function Landing({toShow, changeShow}) {
     const dispatch = useDispatch()
     const [Products, setProducts] = useState([])
     const [Skip, setSkip] = useState(0)
-    const [Limit, setLimit] = useState(8)
+    const [Limit, setLimit] = useState(4)
     const [Size, setSize] = useState(0)
     const [SearchText, setSearchText] = useState('')
     const [Filters, setFilters] = useState({
@@ -35,7 +35,9 @@ function Landing({toShow, changeShow}) {
         console.log(Products)
     }, [Products])
 
-
+    const isActive = (showData) => {
+        return showData == toShow ? 'bg-primary' : ''
+    }
     const getProducts = (filters, show) => {
         const newFilters = {
             ...filters,
@@ -121,11 +123,11 @@ function Landing({toShow, changeShow}) {
     })
     return (
         <div className="w-2/3 mx-auto my-12">
-            <div className="text-center flex justify-center">
+            <div className="text-center flex justify-center mb-3">
                 {/* <h2 className="font-bold border-b border-gray-200 pb-2">Welcome to Benny's Store <ShoppingCartOutlined/></h2> */}
-                <Button isButton={true} title="Iphone Cases" action={()=>handleChangeShow('iphone')} href="/shop" addStyle=""/>
-                <Button isButton={true} title="Airpod Cases" action={()=>handleChangeShow('airpod')} href="/shop" addStyle=""/>
-                <Button isButton={true} title="All" action={()=>handleChangeShow('all')} href="/shop" addStyle=""/>
+                <Button isButton={true} title="Iphone Cases" action={()=>handleChangeShow('iphone')} href="/shop" addStyle={isActive('iphone')}/>
+                <Button isButton={true} title="Airpod Cases" action={()=>handleChangeShow('airpod')} href="/shop" addStyle={isActive('airpod')}/>
+                <Button isButton={true} title="All" action={()=>handleChangeShow('all')} href="/shop" addStyle={isActive('all')}/>
             </div>
             <div className="mb-4 flex -mx-2">
                 <div className="w-1/2 px-2">
@@ -146,7 +148,7 @@ function Landing({toShow, changeShow}) {
                 </div>
             </div>
             {Size >= Limit && 
-            <div className="btn flex justify-center">
+            <div className="flex justify-center">
                 <button className="bg-transparent hover:bg-green-300 text-green-600 font-semibold hover:text-white py-2 px-4 border border-green-900 hover:border-transparent rounded focus:outline-none" onClick={handleLoadmore}>Load More</button>
             </div>
             }

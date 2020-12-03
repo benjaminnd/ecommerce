@@ -43,8 +43,8 @@ ProductRouter.get('/all', async(req, res)=> {
     })
 })
 
-ProductRouter.post('/uploadImage', UserAuth, AdminAuth, (req, res) => {
-    upload(req, res, err => {
+ProductRouter.post('/uploadImage', UserAuth, (req, res) => {
+    upload(req, res, err => { 
         console.log(req)
         if (err) {
             console.log(err)

@@ -23,7 +23,7 @@ const FileUpload = ({imagesRefresh})=>{
         try{
             const res = await axios.post(`${URLDevelopment}/api/product/uploadImage`, formData, config)
             if(res.data.success) {
-                // toast.success(`successfully added ${res.data.image}`)
+                //toast.success(`successfully added ${res.data.image}`)
                 setImages([...Images, res.data.image])
                 imagesRefresh([...Images, res.data.image])
             }
