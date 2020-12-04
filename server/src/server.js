@@ -9,6 +9,9 @@ import WithDb from './db.js'
 import ProductRouter from './routes/product.route.js';
 
 
+require('babel-register')({
+    "presets": ["es2015"]
+});
 
 const app = express();
 
