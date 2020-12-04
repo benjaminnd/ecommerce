@@ -11,7 +11,7 @@ import Product from '../models/Product.js';
 
 console.log('es module' ,expressValidator)
 const UserRouter = express.Router();
-const {check, validationResult} = expressValidator;
+const {check, validationResult} = expressValidator.default;
 console.log(check, validationResult)
 
 
