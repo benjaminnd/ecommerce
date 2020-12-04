@@ -1,22 +1,20 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import * as expressValidator from 'express-validator';
+
 import gravatar from 'gravatar';
 import User from '../models/Users.js';
 import Payment from '../models/Payment.js';
 import UserAuth from '../middleware/auth.js';
+import RegisterValidator from '../middleware/register.js';
 import async from 'async'
 import Product from '../models/Product.js';
 
-console.log('es module' ,expressValidator)
 const UserRouter = express.Router();
-const {check, validationResult} = expressValidator.default;
-console.log(check, validationResult)
 
 
 //@route GET api/users
-//@desc Get all users
+//@desc Get all usersgit
 //@access Private    
 
 UserRouter.get('/users', async(req, res) => {
@@ -50,35 +48,11 @@ UserRouter.get('/', UserAuth, async(req, res) => {
 
 //USER REGISTER
 //Register user POST api/user/register; PUBLIc
-UserRouter.post('/register', [
-    //validate
-    check('name', 'Name is required').not().isEmpty(),
-    check('email', 'Please enter a valid email address').isEmail(),
-    check('password', 'Password must include 8 or more characters').isLength({
-        min: 8
-    })
-], async(req,res)=>{
-    const errMessages = validationResult(req);
-    if(!errMessages.isEmpty()){ //Invalid request handling
-        return res.status(400).json({
-            errors: errMessages.array()
-        });
-    }
+UserRouter.post('/register', RegisterValidator, async(req,res)=>{
 
     const {name, email, password} = req.body;
 
     try {
-        //Check if information already taken
-        let user = await User.findOne({email})
-        if(user){
-            return res.status(400).json({
-                errors:[
-                    {
-                        msg:'This email has been already taken'
-                    }
-                ]
-            });
-        }
         //If email not existed get image
         const avatar = gravatar.url(email, {
             s: '250',
@@ -86,7 +60,7 @@ UserRouter.post('/register', [
             d: 'mm'
         })
         //Create User
-        user = new User({
+        let user = new User({
             name, email, avatar, password
         })
 
@@ -122,17 +96,7 @@ UserRouter.post('/register', [
 });
 
 //USER LOGIN
-UserRouter.post('/login', [
-    check('email', 'please include a valid email').isEmail(),
-    check('password', 'password is required').exists()
-], async(req, res)=>{
-    //If invalid
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        return res.status(400).json({
-            errors: errors.array()
-        })
-    }
+UserRouter.post('/login', async(req, res)=>{
 
     //get email and passwsord from request body
     const{email, password} = req.body;

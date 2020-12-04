@@ -142,7 +142,6 @@ export const register = ({name, email, password}) => async(dispatch) => {
         dispatch(loadUser());
 
     }catch(error){
-        console.log(body,error.response);
         const errs = error.response.data.errors;
         if(errs) {
             errs.map(er => {
