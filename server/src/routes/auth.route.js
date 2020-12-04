@@ -11,7 +11,7 @@ import Product from '../models/Product.js';
 
 
 const UserRouter = express.Router();
-const{check, validationResult} = expressValidator;
+const {check, validationResult} = expressValidator;
 
 
 //@route GET api/users
