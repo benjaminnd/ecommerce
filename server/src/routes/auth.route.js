@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import expressValidator from 'express-validator';
+import * as expressValidator from 'express-validator';
 import gravatar from 'gravatar';
 import User from '../models/Users.js';
 import Payment from '../models/Payment.js';
@@ -9,9 +9,10 @@ import UserAuth from '../middleware/auth.js';
 import async from 'async'
 import Product from '../models/Product.js';
 
-console.log('es module' ,expressValidator["__esModule"])
+console.log('es module' ,expressValidator)
 const UserRouter = express.Router();
-const {check, validationResult} = expressValidator;
+const {check, validationResult} = expressValidator.default;
+console.log(check, validationResult)
 
 
 //@route GET api/users
