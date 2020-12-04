@@ -8,6 +8,7 @@ import CategoryRouter from './routes/category.route.js';
 import WithDb from './db.js'
 import ProductRouter from './routes/product.route.js';
 
+
 const app = express();
 
 //import env
