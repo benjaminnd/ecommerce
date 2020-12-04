@@ -1,7 +1,1 @@
-{
-   "presets": [
-     ["es2015", {
-       "targets": { "node": "current" }
-     }]
-   ]
- }
+{ "presets": ["@babel/preset-env"] }
