@@ -3,10 +3,10 @@ import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser'
-import UserRouter from '../routes/auth.route.js';
-import CategoryRouter from '../routes/category.route.js';
-import WithDb from '../db.js'
-import ProductRouter from '../routes/product.route.js';
+import UserRouter from './routes/auth.route.js';
+import CategoryRouter from './routes/category.route.js';
+import WithDb from './db.js'
+import ProductRouter from './routes/product.route.js';
 
 
 

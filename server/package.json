@@ -9,9 +9,9 @@
     "npm": "6.14.5"
   },
   "scripts": {
-    "start2": "npx nodemon --exec npx babel-node src/server.js",
+    "devstart": "npx nodemon --exec npx babel-node src/server.js",
     "build-babel": "babel -d ./build ./src -s",
-    "clean": "rm -rf build && mkdir build",
+    "clean": "mkdir build",
     "build": "npm run clean && npm run build-babel",
     "start": "npm run build && node ./build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,6 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.12.9",
+    "@babel/cli": "^7.12.8",
     "body-parser": "^1.19.0",
     "formidable": "^1.2.2",
     "@babel/node": "^7.10.5",
