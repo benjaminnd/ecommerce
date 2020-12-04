@@ -9,7 +9,7 @@ import UserAuth from '../middleware/auth.js';
 import async from 'async'
 import Product from '../models/Product.js';
 
-
+console.log('es module' ,expressValidator["__esModule"])
 const UserRouter = express.Router();
 const {check, validationResult} = expressValidator;
 
