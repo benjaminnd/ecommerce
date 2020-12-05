@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {toast} from 'react-toastify'
-import URLDevelopment from '../../helpers/URL'
+import URLProduction from '../../helpers/URL'
 import C from '../categoryConstants';
 
 //Initial State
@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
 //load all products from form
 export const loadCategories = async(dispatch) => {
     try{
-        const response = await axios.get(`${URLDevelopment}/api/category/all`)
+        const response = await axios.get(`${URLProduction}/api/category/all`)
         console.log('getting categories')
         dispatch({
             type: C.CATEGORY_LOADED,

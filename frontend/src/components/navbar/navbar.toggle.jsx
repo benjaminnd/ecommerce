@@ -1,5 +1,5 @@
 import React from 'react'
-import URLDevelopment from '../../helpers/URL';
+import URLProduction from '../../helpers/URL';
 import './navbar.css'
 
 const NavbarToggle = () => {
@@ -20,7 +20,7 @@ const NavbarToggle = () => {
         //         <div className="menu-icon__bar"></div>
         //     </button>
         // </div>
-        <img className="menu-icon" src={`${URLDevelopment}/uploads/menu.png`} alt="menu"  width="40px" height="50px" onClick={()=>toggleMenu()} /> 
+        <img className="menu-icon" src={`${URLProduction}/uploads/menu.png`} alt="menu"  width="40px" height="50px" onClick={()=>toggleMenu()} /> 
 
     );
 };

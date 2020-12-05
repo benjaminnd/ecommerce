@@ -20,7 +20,9 @@
     "react-toastify": "^6.0.8",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "postcss-cli": "^8.0.0",
+    "tailwindcss": "^1.8.10"
   },
   "scripts": {
     "start": "npm run watch:css && react-scripts start",

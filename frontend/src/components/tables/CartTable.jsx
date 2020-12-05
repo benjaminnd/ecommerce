@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import product from '../../data/reducers/product'
-import URLDevelopment from '../../helpers/URL'
+import URLProduction from '../../helpers/URL'
 import CartItem from './CartItem'
 
 function CartTable({cart, removeItem, handleQuantity, isAuth}) {
@@ -9,7 +9,7 @@ function CartTable({cart, removeItem, handleQuantity, isAuth}) {
         console.log('cart', cart)
         if(images && images.length > 0) {
             let image = images[0]
-            return `${URLDevelopment}/${image}`
+            return `${URLProduction}/${image}`
         }
     }
 

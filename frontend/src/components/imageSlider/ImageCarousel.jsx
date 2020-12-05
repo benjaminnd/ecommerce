@@ -1,6 +1,6 @@
 import React from 'react';
 import {Carousel} from 'antd';
-import URLDevelopment from '../../helpers/URL';
+import URLProduction from '../../helpers/URL';
 
 function ImageCarousel({images}) {
     // console.log(images)
@@ -9,7 +9,7 @@ function ImageCarousel({images}) {
             <Carousel autoplay>
                 {images.map((image,index)=>(
                     <div key={index}>
-                        <img style={{width:'75%'}} src={`${URLDevelopment}/${image}`} alt="product image"/>
+                        <img style={{width:'75%'}} src={`${URLProduction}/${image}`} alt="product image"/>
                     </div>
                 ))}
             </Carousel>

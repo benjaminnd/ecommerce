@@ -10,7 +10,7 @@ import Button from '../components/buttons/button.component';
 import { changeShow } from '../data/reducers/category';
 import {connect, useDispatch} from 'react-redux'
 import Footer from './Footer';
-import URLDevelopment from '../helpers/URL';
+import URLProduction from '../helpers/URL';
 
 function Landing({toShow, changeShow}) {
     const dispatch = useDispatch()
@@ -47,7 +47,7 @@ function Landing({toShow, changeShow}) {
         }
         console.log('Filters: ', newFilters)
         // const params = new URLSearchParams(filters)
-        const url = `${URLDevelopment}/api/product/list`
+        const url = `${URLProduction}/api/product/list`
         // console.log('url', url)
         axios.post(url, newFilters).then(response => {
             if(response.data){

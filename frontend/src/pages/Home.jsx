@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import URLDevelopment from "../helpers/URL";
+import URLProduction from "../helpers/URL";
 import { changeShow } from '../data/reducers/category';
 import { connect } from "react-redux";
 import {useHistory} from 'react-router-dom'
@@ -31,7 +31,7 @@ const Home = ({changeShow}) => {
             </a>
           </div>
           <div className="col-2">
-            <img src={`${URLDevelopment}/uploads/main-transparent.PNG`} alt="" width="50%" />
+            <img src={`${URLProduction}/uploads/main-transparent.PNG`} alt="" width="50%" />
           </div>
         </div>
       </div>

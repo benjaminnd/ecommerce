@@ -1,5 +1,5 @@
 import React from 'react'
-import URLDevelopment from '../helpers/URL'
+import URLProduction from '../helpers/URL'
 
 function Footer() {
     return (
@@ -10,12 +10,12 @@ function Footer() {
                     <h3>Download our App</h3>
                     <p>Download App for Andriod and ios mobile phone.</p>
                     <div className="app-logo">
-                        <img src={`${URLDevelopment}/uploads/play-store.png`} alt=""/>
-                        <img src={`${URLDevelopment}/uploads/app-store.png`}  alt=""/>
+                        <img src={`${URLProduction}/uploads/play-store.png`} alt=""/>
+                        <img src={`${URLProduction}/uploads/app-store.png`}  alt=""/>
                     </div>
                 </div>
                 <div className="footer-col-2">
-                    <img src={`${URLDevelopment}/uploads/bennystore.png`} alt=""/>
+                    <img src={`${URLProduction}/uploads/bennystore.png`} alt=""/>
                     <p>Sustainability and Variety</p>
                 </div>
                 <div className="footer-col-3">
