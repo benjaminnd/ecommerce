@@ -14,7 +14,7 @@ const app = express();
 
 //import env
 dotenv.config({
-    path:'./.env' 
+    path:'../.env' 
 })
 
 //MongoDb connection
