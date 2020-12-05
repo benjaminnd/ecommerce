@@ -5,9 +5,6 @@ import './dropdown.css'
 function DropdownMenu({title, options, selected, onSelect}) {
     const [dropdownTitle, setDropdownTitle] = useState(title)
 
-    // useEffect(()=>{
-    //     setDropdownTitle(title)
-    // }, [title])
     return (
         <>
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={`form-${title}`}>
