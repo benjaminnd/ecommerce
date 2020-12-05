@@ -8,3 +8,5 @@ const  categoryName = (req,res,next) =>{
     }
     next()
 }
+
+export default categoryName
