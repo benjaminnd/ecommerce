@@ -1,4 +1,5 @@
 import User from '../models/Users.js';
+import regeneratorRuntime from "regenerator-runtime"
 
 const RegisterValidator = async(req, res, next) => {
   const {name, email , password} = req.body
