@@ -22,6 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/plugin-transform-async-to-generator": "^7.12.1",
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.9",
     "@babel/node": "^7.10.5",
