@@ -22,10 +22,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/plugin-transform-async-to-generator": "^7.12.1",
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.9",
     "@babel/node": "^7.10.5",
+    "@babel/plugin-transform-async-to-generator": "^7.12.1",
     "@babel/preset-env": "^7.11.5",
     "@std/esm": "^0.26.0",
     "async": "^3.2.0",
@@ -44,6 +44,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "react-paypal-express-checkout": "^1.0.5",
+    "regenerator-runtime": "^0.13.7",
     "requirejs": "^2.3.6"
   },
   "devDependencies": {
