@@ -48,8 +48,6 @@
     "requirejs": "^2.3.6"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.8",
-    "@babel/core": "^7.12.9",
     "@babel/plugin-transform-async-to-generator": "^7.12.1",
     "body-parser": "^1.19.0",
     "formidable": "^1.2.2"
