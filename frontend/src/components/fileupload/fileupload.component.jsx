@@ -4,6 +4,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import URLProduction from '../../helpers/URL'
+import serverURL from '../../helpers/URL'
 const FileUpload = ({imagesRefresh})=>{
 
     const [Images, setImages] = useState([])
@@ -21,7 +22,7 @@ const FileUpload = ({imagesRefresh})=>{
         setImages([...Images, files[0]])
         //save the Image we chose inside the Node Server 
         try{
-            const res = await axios.post(`${URLProduction}/api/product/uploadImage`, formData, config)
+            const res = await axios.post(`${serverURL}/api/product/uploadImage`, formData, config)
             if(res.data.success) {
                 //toast.success(`successfully added ${res.data.image}`)
                 setImages([...Images, res.data.image])
@@ -70,7 +71,7 @@ const FileUpload = ({imagesRefresh})=>{
                 {Images.map((image, index) => 
                 (
                     <div key={index} onClick={() => onDelete(image)}>
-                        <img style={{ minWidth: '300px', width: '300px', height: '240px' }} src={`${URLProduction}/${image}`} alt={`productImg-${index}`} />
+                        <img style={{ minWidth: '300px', width: '300px', height: '240px' }} src={`${serverURL}/${image}`} alt={`productImg-${index}`} />
                     </div>
                 ))}
 

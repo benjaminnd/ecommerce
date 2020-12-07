@@ -7,6 +7,7 @@ import FormInput from '../components/inputs/input.component'
 import FileUpload from'../components/fileupload/fileupload.component'
 import {addProduct, finishUpload, loadProducts} from '../data/reducers/product'
 import {useHistory} from 'react-router-dom'
+import Footer from './Footer'
 
 
 const UploadProduct = ({addProduct, finishUpload, stateCategories, stateProductTypes, uploadSuccessful}) => {
@@ -133,6 +134,7 @@ const UploadProduct = ({addProduct, finishUpload, stateCategories, stateProductT
             <Button isButton="true" title='Add Product' addStyle='bg-primary text-white w-full mb-3' action={onSubmit} type='submit'/>
             </div>
             </form>
+            <Footer/>
         </Container>
     )
 }

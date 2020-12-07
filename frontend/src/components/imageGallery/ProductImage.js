@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import ImageGallery from 'react-image-gallery'
 import URLProduction from '../../helpers/URL'
+import serverURL from '../../helpers/URL';
+
 
 function ProductImage({product}) {
     const [Images, setImages] = useState([])
@@ -10,8 +12,8 @@ function ProductImage({product}) {
             let images = []
             product.images && product.images.map(item=> {
                 images.push({
-                    original: `${URLProduction}/${item}`,
-                    thumbnail: `${URLProduction}/${item}`
+                    original: `${serverURL}/${item}`,
+                    thumbnail: `${serverURL}/${item}`
                 })
             })
             setImages(images)

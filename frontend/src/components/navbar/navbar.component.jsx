@@ -16,7 +16,7 @@ import NavbarList from './navbar.list';
     
     return (
         <Container>
-          <div className='navBar'>
+          <div id='navBar'>
             {/* Left Side */}
             <div className="logo">
               <img src={require('../../assets/bennystore.png')} alt='Main Logo'  width="150px" />

@@ -2,6 +2,8 @@ import axios from 'axios'
 import {toast} from 'react-toastify'
 import setAuthToken from '../../helpers/setAuthToken'
 import URLProduction from '../../helpers/URL'
+import serverURL from '../../helpers/URL';
+
 import C from '../authConstants';
 
 
@@ -103,7 +105,7 @@ export const loadUser = () => async (dispatch) => {
         setAuthToken(localStorage.token)
     }
     try {
-        const response = await axios.get(`${URLProduction}/api/user`);
+        const response = await axios.get(`${serverURL}/api/user`);
         console.log('getting user')
         dispatch({
             type:C.USER_LOADED,
@@ -132,7 +134,7 @@ export const register = ({name, email, password}) => async(dispatch) => {
         type: C.LOADING
     })
     try {
-        const res = await axios.post(`${URLProduction}/api/user/register`, body, config)
+        const res = await axios.post(`${serverURL}/api/user/register`, body, config)
 
         dispatch({
             type:C.REGISTER_SUCCESS,
@@ -169,7 +171,7 @@ export const login = ({email, password}) => async(dispatch) => {
         type: C.LOADING
     })
     try {
-        const res = await axios.post(`${URLProduction}/api/user/login`, body, config)
+        const res = await axios.post(`${serverURL}/api/user/login`, body, config)
 
         dispatch({
             type:C.LOGIN_SUCCESS,
@@ -202,7 +204,7 @@ export const logout = () => dispatch => {
 
 export const addToCartUser = (_id) => dispatch=> {
     console.log('adding to cart.....')
-    const request = axios.post(`${URLProduction}/api/user/addToCart?productId=${_id}`)
+    const request = axios.post(`${serverURL}/api/user/addToCart?productId=${_id}`)
     .then(response=>{
         console.log('added cart,', response.data)
         dispatch ({
@@ -218,7 +220,7 @@ export const getCartItems = (cart) => dispatch => {
     console.log('cart items', cart)
     console.log(ids)
 
-    const request = axios.post(`${URLProduction}/api/product/getCartItems?cartItems=${ids}`)
+    const request = axios.post(`${serverURL}/api/product/getCartItems?cartItems=${ids}`)
     .then(response=>{
         let cartToRender = response.data
         console.log('cart to render', cartToRender)
@@ -240,7 +242,7 @@ export const getCartItems = (cart) => dispatch => {
 
 export const removeItemUser = (cart, _id) => dispatch => {
     console.log('REMOVING', _id)
-    const request = axios.post(`${URLProduction}/api/user/removeCartItem?cartItem=${_id}`).
+    const request = axios.post(`${serverURL}/api/user/removeCartItem?cartItem=${_id}`).
     then(response=>{
         if(response.data.success){
             console.log('user after removed.. ', response.data)
@@ -258,7 +260,7 @@ export const removeItemUser = (cart, _id) => dispatch => {
 
 export const changeQuantity = (_id, quantity) => dispatch => {
     console.log('Changing quantity', _id, quantity)
-    axios.post(`${URLProduction}/api/user/changeItem?cartItem=${_id}&newValue=${quantity}`).
+    axios.post(`${serverURL}/api/user/changeItem?cartItem=${_id}&newValue=${quantity}`).
     then(response=>{
         if(response.data.success){
             console.log('user after change quantity ', response.data)

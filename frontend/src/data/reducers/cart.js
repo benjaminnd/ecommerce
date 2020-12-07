@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {toast} from 'react-toastify'
 import URLProduction from '../../helpers/URL'
+import serverURL from '../../helpers/URL';
 import C from '../cartConstants';
 
 //Initial State
@@ -81,7 +82,7 @@ export const emptyCart = () => (dispatch) => {
 export const addToCart = (id) => async(dispatch) => {
     try{
         console.log('adding to cart.....')
-        const request = axios.get(`${URLProduction}/api/product/${id}`)
+        const request = axios.get(`${serverURL}/api/product/${id}`)
         .then(response=>{
             console.log(response.data)
             response.data.cartQuant = 1

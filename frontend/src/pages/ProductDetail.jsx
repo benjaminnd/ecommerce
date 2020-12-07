@@ -4,6 +4,7 @@ import {useParams} from 'react-router-dom'
 import { useEffect } from 'react'
 import axios from 'axios'
 import URLProduction from '../helpers/URL'
+import serverURL from '../helpers/URL';
 import ProductImage from '../components/imageGallery/ProductImage'
 import ProductInfo from '../components/ProductInfo'
 import '../../src/assets/index.css'
@@ -16,7 +17,7 @@ function ProductDetail({isAuth}) {
     const [Product, setProduct] = useState({});
     const productId = param.productId
     useEffect(() => {
-        axios.get(`${URLProduction}/api/product/${productId}`).then(response=>{
+        axios.get(`${serverURL}/api/product/${productId}`).then(response=>{
             setProduct(response.data)
         })
     }, [])

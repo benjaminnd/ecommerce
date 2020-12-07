@@ -8,6 +8,8 @@ import {Badge} from 'antd'
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import NavbarToggle from './navbar.toggle';
 import URLProduction from '../../helpers/URL';
+import serverURL from '../../helpers/URL'
+
 const NavbarList = ({history, logout, cart, cartSum, userCart, isAuth}) => {
         const [CartCount, setCartCount] = useState(0)
         const [userCartCount, setUserCartCount] = useState(0)
@@ -47,7 +49,7 @@ const NavbarList = ({history, logout, cart, cartSum, userCart, isAuth}) => {
             </nav>
             <Badge count={isAuth? userCartCount : CartCount}>
                 <a href="/user/cart">
-                    <img src={`${URLProduction}/uploads/cart.png`} alt="cart"  width="40px" height="50px" />
+                    <img src={`${serverURL}/uploads/cart.png`} alt="cart"  width="40px" height="50px" />
                 </a>
             </Badge>              
             <NavbarToggle/>

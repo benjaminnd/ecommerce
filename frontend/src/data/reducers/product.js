@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {toast} from 'react-toastify'
 import URLProduction from '../../helpers/URL'
+import serverURL from '../../helpers/URL';
 import C from '../productConstants';
 // import {useHistory} from 'react-router-dom'
 
@@ -48,7 +49,7 @@ export const finishUpload = ()=> async(dispatch) => {
 //load all products from form
 export const loadProducts = () => dispatch => {
     console.log('loading products from the store')
-    axios.get(`${URLProduction}/api/product/all`).then(response=>{
+    axios.get(`${serverURL}/api/product/all`).then(response=>{
         if(response.data.success){
             console.log('response getting product', response)
             dispatch({
@@ -74,7 +75,7 @@ export const addProduct = (product) => async(dispatch) => {
     })
     console.log('product upload data', product.images);
     try {
-        const res = await axios.post(`${URLProduction}/api/product/`, bodyFormData, config)
+        const res = await axios.post(`${serverURL}/api/product/`, bodyFormData, config)
         if(res.data.success){
             toast.success(res.data.msg);
             console.log('adding product...', res.data)

@@ -7,6 +7,7 @@ import CartTable from '../components/tables/CartTable';
 import {getCartItems, removeItemUser, onSuccessBuy, changeQuantity} from '../data/reducers/auth'
 import {removeItemGuest, onSuccessBuyGuest, guestChangeQuantity} from '../data/reducers/cart'
 import URLProduction from '../helpers/URL';
+import serverURL from '../helpers/URL';
 import Footer from './Footer';
 
 function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuccessBuy, onSuccessBuyGuest, removeItemGuest, guestChangeQuantity, userCartDetail, guestCart, isAuth}) {
@@ -57,7 +58,7 @@ function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuc
             cartDetail: UserCart, paymentData: data 
         }
 
-        axios.post(`${URLProduction}/api/user/successPay`, payment).then(response=> {
+        axios.post(`${serverURL}/api/user/successPay`, payment).then(response=> {
             if(response.data.success){
                 toast.success('Payment successfully received')
                 onSuccessBuy({cart: response.data.cart, updatedCart: response.data.updatedCart})
@@ -74,7 +75,7 @@ function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuc
         }
         console.log('payment details', payment )
 
-        axios.post(`${URLProduction}/api/user/successPayGuest`, payment).then(response=> {
+        axios.post(`${serverURL}/api/user/successPayGuest`, payment).then(response=> {
             if(response.data.success){
                 toast.success('Payment successfully received')
                 onSuccessBuyGuest({updatedCart: response.data.updatedCart})
