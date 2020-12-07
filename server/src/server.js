@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser'
 import UserRouter from './routes/auth.route.js';
 import CategoryRouter from './routes/category.route.js';
-import WithDb from './db'
+import WithDb from './db.js'
 import ProductRouter from './routes/product.route.js';
 import regeneratorRuntime from "regenerator-runtime"
 
@@ -14,7 +14,7 @@ const app = express();
 
 //import env
 dotenv.config({
-    path:'../.env' 
+    path:'./.env' 
 })
 
 //MongoDb connection
