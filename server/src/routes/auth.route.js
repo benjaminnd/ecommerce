@@ -60,8 +60,9 @@ UserRouter.post('/register', RegisterValidator, async(req,res)=>{
             d: 'mm'
         })
         //Create User
+        let role = 1 //let tester create admin account
         let user = new User({
-            name, email, avatar, password
+            name, email, avatar, password, role
         })
 
         const salt =  await bcrypt.genSalt(10);
