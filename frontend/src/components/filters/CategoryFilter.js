@@ -3,7 +3,7 @@ import {Checkbox, Collapse} from 'antd';
 import { connect } from 'react-redux';
 const {Panel} = Collapse
 
-function CheckBox({handleFilters, stateCategories}) {
+function CategoryFilter({handleFilters, stateCategories}) {
     const [Checked, setChecked] = useState([])
 
     const handleToggle = (value) => {
@@ -25,8 +25,7 @@ function CheckBox({handleFilters, stateCategories}) {
         <Checkbox 
         onChange={()=>handleToggle(value._id)}
         type="checkbox"
-        checked={Checked.indexOf(value._id) === -1 ? false : true} />
-        <span>{value.name}</span>
+        checked={Checked.indexOf(value._id) === -1 ? false : true}><span className="filter-text">{value.name}</span></Checkbox>
         </React.Fragment>  
     ))
     return (
@@ -45,4 +44,4 @@ const mapToStateProps = state => ({
 })
 
 
-export default connect(mapToStateProps)(CheckBox)
+export default connect(mapToStateProps)(CategoryFilter)

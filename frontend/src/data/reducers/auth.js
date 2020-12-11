@@ -24,7 +24,7 @@ export default function(state = initialState, action) {
     const {type, payload} = action
     switch (type) {
         case C.USER_LOADED:
-            console.log('user loaded');
+            console.log('user loaded')
             return {
                 ...state,
                 user: payload,

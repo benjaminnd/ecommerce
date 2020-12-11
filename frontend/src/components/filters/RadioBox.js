@@ -11,7 +11,7 @@ function RadioBox({handleFilters}) {
 
     const renderRadioBox = () =>  (
             price.map((price, index)=> (
-                <Radio key={index} value={`${index}`}>{price.name}</Radio>
+                <Radio key={index} value={`${index}`}><span className="filter-text">{price.name}</span></Radio>
             ))
     )
     

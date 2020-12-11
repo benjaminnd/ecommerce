@@ -34,7 +34,9 @@ const Login = ({login, isAuth, isLoading, user}) => {
         console.log(user);
         const {name, role} = user
         toast.success(`Welcome ${name}`);
-        return (role===0 ? (<Redirect to='/dashboard/user'/>): (<Redirect to='/dashboard/admin'/>));
+        return <Redirect to='/'/>
+        //return (role===0 ? (<Redirect to='/dashboard/user'/>): (<Redirect to='/dashboard/admin'/>));
+
     } 
 
     return (

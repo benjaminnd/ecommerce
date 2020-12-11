@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import Card from '../components/products/productCard';
-import CheckBox from '../components/filters/CheckBox';
+import CategoryFilter from '../components/filters/CategoryFilter.js';
 import RadioBox from '../components/filters/RadioBox';
 import price from '../assets/price';
 import SearchBar from '../components/filters/SearchBar';
@@ -12,6 +12,7 @@ import {connect, useDispatch} from 'react-redux'
 import Footer from './Footer';
 import URLProduction from '../helpers/URL';
 import serverURL from '../helpers/URL';
+import Sortby from '../components/filters/Sortby';
 
 
 function Landing({toShow, changeShow}) {
@@ -91,13 +92,18 @@ function Landing({toShow, changeShow}) {
     
     const handleFilters = (filters, name) =>{
         console.log('name', name)
-        console.log('filters ',filters)
+        console.log('filters ',filters.sortBy)
+        //assign 
         const newFilters = {...Filters}
         newFilters[name] = filters
         
         //Getting price from data
         if(name === 'price') {
             newFilters[name] = filters ? price[filters].range : [0]
+        }
+        if(name === 'sortBy') {
+            newFilters[name] = filters.sortBy
+            newFilters['order'] = filters.order
         }
         console.log('New filters', newFilters)
         
@@ -134,16 +140,16 @@ function Landing({toShow, changeShow}) {
                 <Button isButton={true} title="Airpod Cases" action={()=>handleChangeShow('airpod')} href="/shop" addStyle={isActive('airpod')}/>
                 <Button isButton={true} title="All" action={()=>handleChangeShow('all')} href="/shop" addStyle={isActive('all')}/>
             </div>
-            <div className="mb-4 flex -mx-2">
-                <div className="w-1/2 px-2">
-                     <CheckBox handleFilters={filters=>handleFilters(filters, "category")}/>
+            <div className="sort-list mb-4 flex flex-wrap -mx-2 justify-between">
+                <div className="px-2 my-2">
+                     <CategoryFilter handleFilters={filters=>handleFilters(filters, "category")}/>
                 </div>
-                <div className="w-1/2 px-2">
-                    <RadioBox handleFilters={filters=>handleFilters(filters, "price")}/>
+                <div className="px-2 my-2">
+                    <Sortby handleFilters={filters=>handleFilters(filters, "sortBy")}/>
                 </div>
+                <div className="px-2 my-2"><SearchBar handleSearch={handleSearch}/></div>
             </div>
             <div className="mb-4 flex -mx-2 justify-end">
-                    <SearchBar handleSearch={handleSearch}/>
             </div>
             <div className="container my-12 mx-auto px-4 md:px-12">
                 <div className="flex flex-wrap -mx-1 lg:-mx-4">

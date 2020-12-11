@@ -5,15 +5,14 @@ import './navbar.css'
 
 const NavbarToggle = () => {
     const toggleMenu = () => {
-        const navBar = document.getElementById("navBar");
+        const toggleDiv = document.getElementById('toggle')
         const menuItems = document.getElementById("menuItems");
         if(menuItems.style.maxHeight=="0px"){
+            toggleDiv.style.maxHeight = '150px';
             menuItems.style.maxHeight= "300px";
-            navBar.style.height = "350px";
-            navBar.style.maxHeight = "350px";
         }else{
+            toggleDiv.style.maxHeight = '0px';
             menuItems.style.maxHeight= "0px";
-            navBar.style.height = "150px";
         }
     
     }

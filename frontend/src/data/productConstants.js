@@ -6,7 +6,7 @@ const actionTypes = {
     ADD_FILTER: 'ADD_FILTERS',
     REMOVE_FILTER: 'REMOVE_FILTER',
     FINISH_UPLOAD: 'FINISH_UPLOAD',
-
+    REMOVE_PRODUCT: 'REMOVE_PRODUCT'
 }
 
 export default actionTypes;

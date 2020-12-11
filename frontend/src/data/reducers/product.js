@@ -33,6 +33,11 @@ export default function(state = initialState, action) {
                 ...state,
                 productUploaded: false
             }
+        case C.REMOVE_PRODUCT:
+            return {
+                ...state,
+                products: payload
+            }
         default: return state
     }
 }
@@ -86,5 +91,14 @@ export const addProduct = (product) => async(dispatch) => {
     }catch(error){
         // toast.error(error.response.data.error)
         console.log(error.response)
+    }
+}
+
+export const deleteProduct = (_id) => async(dispatch)=> {
+    try{
+        const res = await axios.delete(`${serverURL}/api/product/`)
+    }catch(error){
+        console.log(error.response)
+        toast.error(error.response.data)
     }
 }

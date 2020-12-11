@@ -2,12 +2,22 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
+#wholeNav {
+    background: linear-gradient(#b1adde, #8c85dc);
+}
+
 #navBar{
     display: flex;
     align-items: center;
     padding: 20px;
-    padding-right: 100px;
-    background: linear-gradient(#b1adde, #8c85dc);
+    padding-right: 200px;
+}
+#toggle{
+    height: 150px;
+    max-height: 150px;
+    width: 100%;
+    display:none;
+    transition: max-height 0.6s;
 }
 
 nav{
@@ -253,11 +263,28 @@ h4 {
 .image-gallery {
     width: 400px;
 }
+
+@media only screen and (max-width: 540px) {
+    .footer-col-2 {
+        padding-left: 40px;
+    }
+
+    .footer-col-1 {
+        text-align: center;
+    }
+
+    .filter-text{
+        font-size: smaller
+    }
+}
 @media only screen and (max-width: 850px){
     #navBar {
-        padding-right: 20px;
-        height: 350px;
+        padding-right: 50px;
+        height: 150px;
         transition: height 0.6s
+    }
+    #toggle {
+        display: block;
     }
     #menuItems {
         position: absolute;
@@ -297,7 +324,7 @@ h4 {
     background: rgb(82, 76, 76);
     color: #8a8a8a;
     font-size: 14px;
-    padding: 60px 0 20px;
+    padding: 60px 0 60px;
 }
 
 .footer p{
@@ -343,7 +370,7 @@ ul{
 }
 
 .app-logo img{
-    width: 140px;
+    width: 120px;
 }
 
 .footer hr{
