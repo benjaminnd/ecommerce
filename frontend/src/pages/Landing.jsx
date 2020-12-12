@@ -19,7 +19,7 @@ function Landing({toShow, changeShow}) {
     const dispatch = useDispatch()
     const [Products, setProducts] = useState([])
     const [Skip, setSkip] = useState(0)
-    const [Limit, setLimit] = useState(4)
+    const [Limit, setLimit] = useState(6)
     const [Size, setSize] = useState(0)
     const [SearchText, setSearchText] = useState('')
     const [Filters, setFilters] = useState({
@@ -30,7 +30,7 @@ function Landing({toShow, changeShow}) {
     //get all products
     useEffect(()=>{
         const params = {
-            skip: Skip,
+            skip: 0,
             limit: Limit
         }
         getProducts(params, toShow)

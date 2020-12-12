@@ -4,7 +4,18 @@ import { useState } from 'react'
 
 function CartItem({cart, product, isAuth, renderCartImage, removeItem, handleQuantity}) {
     const userQuantity = useInputForm(product.quant)
-    let guestQuantity = useInputForm(product.cartQuant)
+    const guestQuantity = useInputForm(product.cartQuant)
+    const [UserItemSubTotal, setUserItemSubTotal] = useState(0)
+    const [GuestItemSubTotal, setGuestUserItemSubtotal] = useState(0)
+    useEffect(() => {
+        let newSub = userQuantity.value * product.price
+        setUserItemSubTotal(newSub)
+    }, [userQuantity])
+
+    useEffect(() => {
+        let newSub = guestQuantity.value * product.price
+        setGuestUserItemSubtotal(newSub)
+    }, [guestQuantity])
     function useInputForm(innitialValue){
         const [quantity, setQuantity] = useState(innitialValue)
         const handleChange = (e)=>{
@@ -17,22 +28,30 @@ function CartItem({cart, product, isAuth, renderCartImage, removeItem, handleQua
         }
     }
 
+
     return (
         <tr key={product._id}>
-        <td className="flex items-center">
-            <img style={{ width: '70px' }} alt="product" 
-            src={renderCartImage(product.images)} />
-            <p>{product.name}</p>
+        <td className="">
+            <div className="cart-info flex flex-wrap">
+                <img alt="product" src={renderCartImage(product.images)} />
+                <div>
+                    <p className="productName">{product.name}</p>   
+                    <small>Price: ${product.price} CAD</small>
+                    <br/>
+                    <button className="removeBtn"
+                    onClick={()=>removeItem(cart, product._id)}
+                    >Remove </button>
+                </div>
+            </div>
         </td> 
         <td>
-            {isAuth && <input type="number" min="1" {...userQuantity} /> }
-            {!isAuth && <input type="number" min="1" {...guestQuantity} /> }
-                EA
-            </td>
-        <td>$ {product.price} </td>
-        <td><button 
-            onClick={()=>removeItem(cart, product._id)}
-            >Remove </button> </td>
+            {isAuth && <input className="quantInput" type="number" min="1" {...userQuantity} /> }
+            {!isAuth && <input className="quantInput" type="number" min="1" {...guestQuantity} /> }
+        </td>
+        <td>
+            ${isAuth && UserItemSubTotal}
+            {!isAuth && GuestItemSubTotal} <small>CAD</small>
+        </td>
         </tr>
     )
 }

@@ -31,16 +31,12 @@ function ProductDetail({isAuth}) {
         }
     }
     return (
-        <div className="py-12 sm:px-16">
-            <div className="flex justify-center mb-12">
-                <h1 className="font-bold pb-2">{Product.name}</h1>
-            </div>
-
-            <div className="flex flex-wrap">
-                <div className="w-full sm:w-1/3 mb-4 p-3">
+        <div className="smallContainer">
+            <div className="row-2">
+                <div className="col-2">
                     <ProductImage product={Product}/>
                 </div>   
-                <div className="w-full sm:w-2/3 mb-4 p-3">
+                <div className="col-2">
                     <ProductInfo product={Product} addToCart={handleAddToCart}/>
                 </div>   
             </div>

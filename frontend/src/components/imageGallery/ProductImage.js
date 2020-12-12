@@ -20,7 +20,7 @@ function ProductImage({product}) {
         }
     }, [product])
     return (
-        <ImageGallery items={Images}/>
+        <ImageGallery showThumbnails={Images.length >= 2 ? true : false} items={Images} showPlayButton={false} showNav={false} showFullscreenButton={false} autoPlay={true}/>
     )
 }
 

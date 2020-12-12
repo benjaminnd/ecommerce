@@ -107,39 +107,42 @@ function CartPage({userCart, getCartItems, removeItemUser, changeQuantity, onSuc
                 { isAuth && userCart.length > 0  && <CartTable cart={userCartDetail} removeItem={removeItemUser} handleQuantity={handleQuantity} isAuth={isAuth}/>}
                 { !isAuth && guestCart.length > 0  && <CartTable cart={guestCart} removeItem={removeItemGuest} isAuth={isAuth} handleQuantity={guestHandleQuantity}/>}
             </div>
-            <div>
-                <span className="flex">
+            <div className="total-price">
+                <table>
                     {
                         isAuth && userCart.length > 0 &&
-                        <>
-                        <p>Total: </p>
-                        <p className="font-bold ml-3">{UserTotal} $</p>
-                        </>
+                        <tr>
+                        <td>Total </td>
+                        <td className="font-bold ml-3">{UserTotal} $</td>
+                        </tr>
                     }
                     {
                         !isAuth && guestCart.length > 0 &&
-                        <>
-                        <p>Total: </p>
-                        <p className="font-bold ml-3">{GuestTotal}$</p>
-                        </>
+                        <tr>
+                        <td>Total </td>
+                        <td className="font-bold ml-3">{GuestTotal}$</td>
+                        </tr>
                     }
-                </span>
+                    
+                </table>
             </div>
-            {/* Paypal button */}
-                {isAuth && userCart.length > 0 &&
-                <Paypal
+            <div className="flex justify-end">
+                {/* Paypal button */}
+                    {isAuth && userCart.length > 0 &&
+                    <Paypal
                     total = {UserTotal}
                     onSuccess={transactionSuccess}
                     transactionError={transactionError}/>
                 }
 
-                {!isAuth && guestCart.length > 0 && 
-                <Paypal
+                    {!isAuth && guestCart.length > 0 && 
+                    <Paypal
                     total={GuestTotal}
                     onSuccess={guestTransactionSuccess}
                     onError={transactionError}
                     onCancel={transactionCanceled}/>
                 }
+            </div>
         </div>
         <Footer/>
         </>

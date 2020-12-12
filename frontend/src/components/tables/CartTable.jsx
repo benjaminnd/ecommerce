@@ -36,13 +36,12 @@ function CartTable({cart, removeItem, handleQuantity, isAuth}) {
 
     return (
         <div>
-        <table>
+        <table className="cart">
             <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Product Quantity</th>
-                    <th>Product Price</th>
-                    <th>Remove from Cart</th>
+                    <th className="background">Product</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
                 </tr>
             </thead>
             <tbody>

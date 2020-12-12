@@ -42,6 +42,12 @@ nav ul li{
     justify-content: space-around;
 }
 
+.row-2{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 
 .col-2{
     flex-basis: 50%;
@@ -49,6 +55,15 @@ nav ul li{
     
 }
 
+/*----image Gallery ----*/
+
+.image-gallery-slide .image-gallery-image {
+    width: 300px;
+}
+
+.image-gallery-thumbnails-wrapper {
+    width: 300px;
+}
 
 .activeItem {
     color: #FF9966
@@ -276,6 +291,10 @@ h4 {
     .filter-text{
         font-size: smaller
     }
+
+    .productName {
+        display: none;
+    }
 }
 @media only screen and (max-width: 850px){
     #navBar {
@@ -317,6 +336,10 @@ h4 {
         cursor: pointer;
     }
 
+}
+
+@media only screen and (max-width: 970px){
+    
 }
 
 
@@ -384,3 +407,73 @@ ul{
     text-align: center;
 }
 
+/*-------------cart items------------------*/
+.productName {
+    font-weight: bold;
+}
+
+
+.cart {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart td {
+    border: none;
+    padding: 10px 5px;
+}
+
+.cart th {
+    border:none;
+    text-align: left;
+    padding: 5px;
+    color: #fff;
+    font-weight: normal;
+    background-color: rgb(125, 121, 121);
+}
+
+.cart-info img {
+    margin-right: 10px;
+    width: 70px;
+    height: 70px;
+}
+
+.cart td input{
+    width: 40px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;;
+    border: 1.5px solid #D3D3D3;
+    outline: none;
+}
+
+.cart td input:focus{
+    box-shadow: 0 0 5pt 0.5pt #D3D3D3
+}
+
+.removeBtn {
+    color: rgb(222, 97, 44);
+    font-size: 12px;
+}
+
+.total-price {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.total-price table {
+    border-top: 3px solid rgb(125, 121, 121);
+    width: 100%;
+    max-width: 300px;
+}
+.total-price table td {
+    border: none
+}
+
+td:last-child {
+    text-align: right;
+}
+
+th:last-child {
+    text-align: right;
+}

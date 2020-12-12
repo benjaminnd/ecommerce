@@ -20,13 +20,13 @@ function Sortby({handleFilters}) {
     return (
       <Select
         defaultValue="Sort by"
-        style={{ width: 200 }}
+        style={{ width: 220 }}
         onChange={handleChange}
       >
-        <Option value="name asc"><span className="filter-text">Name (ascending)</span></Option>
-        <Option value="name desc"><span className="filter-text">Name (descending)</span></Option>
-        <Option value="price asc"><span className="filter-text">Price (low to high)</span></Option>
-        <Option value="price desc"><span className="filter-text">Price (high to low)</span></Option>
+        <Option value="name asc"><span className="filter-text">Sort By Name (ascending)</span></Option>
+        <Option value="name desc"><span className="filter-text">Sort By Name (descending)</span></Option>
+        <Option value="price asc"><span className="filter-text">Sort By Price (low to high)</span></Option>
+        <Option value="price desc"><span className="filter-text">Sort By Price (high to low)</span></Option>
       </Select>
     );
 }

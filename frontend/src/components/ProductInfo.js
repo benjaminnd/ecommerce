@@ -12,19 +12,17 @@ function ProductInfo({product, addToCart}) {
         addToCart(Product._id)
     }
     return (
-        <div>
-           <Descriptions title="Product Info">
-                <Descriptions.Item label="Price"> {Product.price}$</Descriptions.Item>
-                <Descriptions.Item label="Sold">{Product.sold}</Descriptions.Item>
-                <Descriptions.Item label="View"> {Product.views + 1}</Descriptions.Item>
-                <Descriptions.Item label="Description"> {Product.description}</Descriptions.Item>
-            </Descriptions>
+        <>
+            <h1>{Product.name}</h1>
+            <p><span className="font-bold">Description </span> : {Product.description}</p>
+            <h4> Price: ${Product.price}</h4>
+            <small>Viewed: {Product.views + 1}</small>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <button className="rounded-full bg-red-700 hover:bg-red-400 py-2 px-4 text-white font-bold focus:outline-none" onClick={handleAddToCart}>
                     Add to Cart
                 </button>
             </div>
-        </div>
+        </>
     )
 }
 

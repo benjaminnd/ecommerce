@@ -50,7 +50,7 @@ export default class Paypal extends React.Component {
             onSuccess={onSuccess} 
             onCancel={onCancel}
             style={{
-                size: 'large',
+                size: 'medium',
                 color: 'blue',
                 shape: 'rect',
                 label: 'checkout'
