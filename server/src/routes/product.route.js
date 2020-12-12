@@ -209,8 +209,14 @@ ProductRouter.post("/list", async (req,res) => {
                     $gte: req.body.filters[key][0],
                     $lte: req.body.filters[key][1]
                 }
-            } else { 
+            } else if(key==="category") { 
                 findArgs[key] = req.body.filters[key]
+            }else{
+                if(key==="sortBy"){
+                    sortBy = req.body.filters[key]
+                }else{
+                    listOrder = req.body.filters[key]
+                }
             }
         }
     }
