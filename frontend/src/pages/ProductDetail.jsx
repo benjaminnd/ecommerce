@@ -11,6 +11,7 @@ import '../../src/assets/index.css'
 import {connect, useDispatch} from 'react-redux'
 import {addToCartUser} from '../data/reducers/auth'
 import { addToCart } from '../data/reducers/cart'
+import Footer from './Footer'
 function ProductDetail({isAuth}) {
     const param = useParams()
     const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function ProductDetail({isAuth}) {
         }
     }
     return (
+        <>
         <div className="smallContainer">
             <div className="row-2">
                 <div className="col-2">
@@ -41,6 +43,8 @@ function ProductDetail({isAuth}) {
                 </div>   
             </div>
         </div>
+        <Footer/>
+        </>
     )
 }
 

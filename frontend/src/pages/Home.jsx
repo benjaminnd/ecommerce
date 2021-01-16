@@ -19,8 +19,8 @@ const Home = ({changeShow}) => {
         <div className="row">
           <div className="col-2">
             <h1>
-              Change your Cases, <br />
-              Change your Story.
+              Find cases you love <br />
+              that reflects your unique style.
             </h1>
             {/* <p>
               When words becomes unclear, I shall focus with photographs.
