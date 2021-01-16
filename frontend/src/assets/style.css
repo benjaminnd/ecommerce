@@ -440,6 +440,10 @@ ul {
   font-size: 12px;
 }
 
+.removeBtn:focus {
+  outline: none;
+}
+
 .total-price {
   display: flex;
   justify-content: flex-end;
