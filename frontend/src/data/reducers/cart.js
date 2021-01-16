@@ -111,7 +111,7 @@ export const removeItemGuest = (id) => async (dispatch) => {
 
 export const guestChangeQuantity = (_id, newQuant) => (dispatch) => {
   const tempCart = JSON.parse(localStorage.getItem("tempCart") || "[]");
-  const indexToChange = tempCart.findIndex((item) => (item._id = _id));
+  const indexToChange = tempCart.findIndex((item) => item._id == _id);
   tempCart[indexToChange].cartQuant = +newQuant;
   localStorage.setItem("tempCart", JSON.stringify(tempCart));
   dispatch({
